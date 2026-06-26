@@ -1,0 +1,8 @@
+{
+  "commands": {
+    "restart": {
+      "noPermission": "❌ Only admins can use this command!",
+      "restarting": "🔄 Bot is restarting...\n⏳ Please wait a moment."
+    }
+  }
+}

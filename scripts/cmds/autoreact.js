@@ -1,0 +1,85 @@
+const SABBIR = "Ariful Islam Sabbir";
+const reactions = [
+  "❤️", "😆", "😮", "😢", "😠", "👍", "🎉", "🔥", "💯", "😍", "🥰", "😂", "👏", "💪", "🙌", "✨", "🚀", "🌈", "⭐", "🎈",
+  "😎", "🤩", "🤔", "🧐", "🙄", "😏", "🥳", "😭", "😤", "🤯", "😴", "😇", "🥳", "😜", "🤑", "😲", "🤐", "😴", "🤤", "😵",
+  "🤠", "👽", "👾", "🤖", "🎃", "😺", "😸", "😻", "😽", "🤘", "🤝", "✌️", "🤞", "🤙", "🖐️", "👊", "💥", "💢", "💎", "👑",
+  "🌻", "🌹", "🍀", "🍎", "🍕", "🍔", "🍦", "🍩", "🌍", "🌕", "☀️", "⛈️", "⚡", "🔥", "💧", "🌊", "🏀", "⚽", "🎮", "🎸",
+  "📱", "💻", "💡", "💰", "✉️", "🎁", "🚩", "🏁", "✅", "❌", "🌀", "🧿", "🎵", "🎶", "🔔", "📣", "💬", "💭", "🉐", "㊙️",
+  "㊗️", "🔞", "📍"
+];
+
+if (!global.autoReactThreads) global.autoReactThreads = new Set();
+
+module.exports.config = {
+  name: "autoreact",
+  version: "1.2.0",
+  role: 1,
+  credits: "Ariful Islam Sabbir",
+  usePrefix: true,
+  category: "System",
+  countDown: 3,
+  shortDescription: "Auto react to every message",
+  longDescription: "Only bot admins can toggle this command",
+  guide: {
+    en: "{pn} on/off",
+    bn: "{pn} on/off"
+  }
+};
+
+module.exports.onLoad = async function ({ threadsData }) {
+  try {
+    const all = global.db.allThreadData || [];
+    for (const t of all) {
+      if (t.data?.autoReact === true) {
+        global.autoReactThreads.add(t.threadID);
+      }
+    }
+  } catch (e) {}
+};
+
+module.exports.onStart = async function ({ event, args, message, threadsData }) {
+  const { threadID } = event;
+  const action = (args[0] || "").toLowerCase();
+
+  if (!["on", "off"].includes(action)) {
+    const status = global.autoReactThreads.has(threadID) ? "✅ Active" : "❌ Inactive";
+    return message.reply(
+      `🎭 AutoReact Status: ${status}\n\n📌 Usage:\n• /autoreact on → Enable\n• /autoreact off → Disable`
+    );
+  }
+
+  const isEnable = action === "on";
+
+  if (isEnable) {
+    global.autoReactThreads.add(threadID);
+  } else {
+    global.autoReactThreads.delete(threadID);
+  }
+
+  try {
+    await threadsData.set(threadID, "autoReact", isEnable);
+  } catch (e) {}
+
+  return message.reply(
+    isEnable
+      ? `✅ AutoReact enabled!\nBot will now react randomly to all messages.`
+      : `❌ AutoReact disabled!`
+  );
+};
+
+module.exports.onChat = async function ({ api, event }) {
+  const { threadID, messageID, senderID, body } = event;
+
+  if (!body) return;
+  if (senderID == api.getCurrentUserID()) return;
+  if (body.startsWith(global.GoatBot.config.prefix)) return;
+  if (!global.autoReactThreads.has(threadID)) return;
+
+  const randomReact = reactions[Math.floor(Math.random() * reactions.length)];
+
+  setTimeout(() => {
+    api.setMessageReaction(randomReact, messageID, (err) => {
+      if (err) console.error("[AutoReact] Reaction Error:", err);
+    }, true);
+  }, 500);
+};
