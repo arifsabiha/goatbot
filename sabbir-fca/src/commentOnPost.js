@@ -7,7 +7,7 @@ var log = require("npmlog");
 // Facebook rotates these; we try each in sequence until one works.
 var COMMENT_MUTATIONS = [
   {
-    doc_id: "3990729237650259",
+    doc_id: "6993516810709754",
     friendly_name: "UFICreateCommentMutation",
     buildVars: function(userID, feedbackID, text) {
       return {
@@ -40,7 +40,7 @@ var COMMENT_MUTATIONS = [
     }
   },
   {
-    doc_id: "7690870857617540",
+    doc_id: "6993516810709754",
     friendly_name: "CometUFICreateCommentMutation",
     buildVars: function(userID, feedbackID, text) {
       return {
@@ -71,7 +71,7 @@ var COMMENT_MUTATIONS = [
     }
   },
   {
-    doc_id: "4205942669439029",
+    doc_id: "6993516810709754",
     friendly_name: "CometUFICreateCommentMutation",
     buildVars: function(userID, feedbackID, text) {
       return {
