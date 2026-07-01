@@ -77,61 +77,53 @@ function parseIDFromURL(raw) {
 }
 
 // ── redirect follow করে actual URL থেকে ID বের করে ─────────────────────────
+async function _fetchAndResolve(rawUrl) {
+  const url = rawUrl.startsWith("http") ? rawUrl : "https://" + rawUrl;
+  const res = await axios.get(url, {
+    maxRedirects: 5,
+    timeout: 7000,
+    headers: {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+      "Accept-Language": "en-US,en;q=0.9"
+    },
+    validateStatus: () => true
+  });
+
+  const finalUrl = res.request?.res?.responseUrl || res.config?.url || url;
+  const fromRedirect = parseIDFromURL(finalUrl);
+  if (fromRedirect) return { id: fromRedirect, resolved: finalUrl };
+
+  if (res.data && typeof res.data === "string") {
+    const html = res.data;
+    const patterns = [
+      /"story_fbid"\s*[=:,]\s*"?(\d{10,})/,
+      /"post_id"\s*[=:,]\s*"?(\d{10,})/,
+      /top_level_post_id[":]+(\d{10,})/,
+      /content_owner_id_new[":]+(\d{10,})/,
+      /"id"\s*:\s*"(\d{14,})"/
+    ];
+    for (const pat of patterns) {
+      const m = html.match(pat);
+      if (m) return { id: m[1], resolved: finalUrl };
+    }
+  }
+  return { id: null, resolved: null };
+}
+
 async function resolvePostID(rawUrl) {
-  // প্রথমে directly try করো
+  // সরাসরি parse করার চেষ্টা
   const direct = parseIDFromURL(rawUrl);
   if (direct) return { id: direct, resolved: rawUrl };
 
-  // URL normalize
-  const url = rawUrl.startsWith("http") ? rawUrl : "https://" + rawUrl;
-
+  // HTTP fetch — 8 সেকেন্ডের মধ্যে না পেলে null return করো
   try {
-    // redirect follow করো — FB share/p/ এই ধরনের URL redirect করে actual post URL-এ
-    const res = await axios.get(url, {
-      maxRedirects: 10,
-      timeout: 10000,
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
-        "Accept-Language": "en-US,en;q=0.9"
-      },
-      validateStatus: () => true
-    });
-
-    const finalUrl = res.request?.res?.responseUrl || res.config?.url || url;
-
-    // Redirect হওয়া URL থেকে ID বের করো
-    const fromRedirect = parseIDFromURL(finalUrl);
-    if (fromRedirect) return { id: fromRedirect, resolved: finalUrl };
-
-    // HTML body থেকে post ID খোঁজো
-    if (res.data && typeof res.data === "string") {
-      const html = res.data;
-
-      // "story_fbid":"123456"
-      const m1 = html.match(/"story_fbid"\s*[=:,]\s*"?(\d{10,})/);
-      if (m1) return { id: m1[1], resolved: finalUrl };
-
-      // "post_id":"123456"
-      const m2 = html.match(/"post_id"\s*[=:,]\s*"?(\d{10,})/);
-      if (m2) return { id: m2[1], resolved: finalUrl };
-
-      // data-ft="...\"content_owner_id_new\":123456..."
-      const m3 = html.match(/content_owner_id_new[":]+(\d{10,})/);
-      if (m3) return { id: m3[1], resolved: finalUrl };
-
-      // top_level_post_id
-      const m4 = html.match(/top_level_post_id[":]+(\d{10,})/);
-      if (m4) return { id: m4[1], resolved: finalUrl };
-
-      // "id":"123456" near "story" context
-      const m5 = html.match(/"id"\s*:\s*"(\d{14,})"/);
-      if (m5) return { id: m5[1], resolved: finalUrl };
-    }
+    return await Promise.race([
+      _fetchAndResolve(rawUrl),
+      new Promise(resolve => setTimeout(() => resolve({ id: null, resolved: null }), 8000))
+    ]);
   } catch (e) {
-    // network error — continue
+    return { id: null, resolved: null };
   }
-
-  return { id: null, resolved: null };
 }
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -190,21 +182,29 @@ module.exports.onStart = async function ({ api, event, args, message }) {
     return message.reply(`❌ Post URL বা Post ID দাও!\nExample: /postreact ${sub} https://fb.com/...`);
   }
 
-  // Resolving message দেখাও
-  const resolving = await message.reply(`🔍 Post ID বের করছি, একটু অপেক্ষা করো...`);
+  // সরাসরি parse করার চেষ্টা — fast path
+  let postID = parseIDFromURL(rawUrl);
 
-  const { id: postID, resolved } = await resolvePostID(rawUrl);
+  // share/p/ বা অন্য format হলে fetch করে দেখো
+  if (!postID) {
+    await message.reply(`🔍 URL থেকে ID বের করছি...`);
+    const result = await resolvePostID(rawUrl);
+    postID = result.id;
+  }
 
   if (!postID) {
     return message.reply(
-      `❌ Post ID বের করতে পারিনি!\n\n` +
-      `📋 Supported URL format:\n` +
-      `• https://fb.com/share/p/XXXXX/\n` +
-      `• https://fb.com/.../posts/123456\n` +
-      `• https://fb.com/permalink.php?story_fbid=123456\n` +
-      `• https://fb.com/photo/?fbid=123456\n` +
-      `• সরাসরি numeric ID: 123456789\n\n` +
-      `💡 অথবা post টা open করে URL এর মধ্যে যে number আছে সেটা দাও।`
+      `❌ এই URL থেকে Post ID বের করতে পারিনি!\n\n` +
+      `📌 Post ID কীভাবে পাবে:\n\n` +
+      `1️⃣ Post টা Facebook-এ open করো\n` +
+      `2️⃣ Post এর Date/Time তে click করো\n` +
+      `3️⃣ Browser এর address bar থেকে URL copy করো\n` +
+      `4️⃣ URL এ যে বড় number টা আছে সেটা দাও\n\n` +
+      `✅ Example:\n` +
+      `fb.com/groups/xyz/posts/📌123456789\n` +
+      `fb.com/permalink.php?story_fbid=📌123456789\n\n` +
+      `অথবা সরাসরি numeric ID টা দাও:\n` +
+      `/postreact ${sub} 123456789012345 ...`
     );
   }
 
