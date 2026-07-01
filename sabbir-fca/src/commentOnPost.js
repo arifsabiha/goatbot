@@ -204,11 +204,11 @@ module.exports = function(defaultFuncs, api, ctx) {
 
       tryGraphQL(defaultFuncs, ctx, mutation, feedbackID, text)
         .then(function(result) {
-          log.verbose("commentOnPost", "Success with doc_id=" + mutation.doc_id);
+          log.info("commentOnPost", "Success with doc_id=" + mutation.doc_id);
           callback(null, result);
         })
         .catch(function(err) {
-          log.verbose("commentOnPost", "doc_id=" + mutation.doc_id + " failed, trying next...");
+          log.warn("commentOnPost", "doc_id=" + mutation.doc_id + " failed: " + (err && (err.message || JSON.stringify(err))));
           tryNext(index + 1);
         });
     })(0);
