@@ -155,6 +155,7 @@ module.exports.config = {
 };
 
 module.exports.onStart = async function ({ api, event, args, message }) {
+  console.log("[DEBUG postreact] onStart called | sub:", args[0], "| args:", JSON.stringify(args));
   const sub = (args[0] || "").toLowerCase();
 
   if (!sub || !["react", "comment", "both", "spam"].includes(sub)) {
@@ -305,6 +306,7 @@ module.exports.onStart = async function ({ api, event, args, message }) {
 
   // ── SPAM ───────────────────────────────────────────────────────────────────
   if (sub === "spam") {
+    console.log("[DEBUG postreact] spam branch | rawUrl:", args[1]);
     const allAfterUrl = args.slice(2).join(" ").trim();
     if (!allAfterUrl) {
       return message.reply(
