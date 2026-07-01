@@ -69,9 +69,13 @@ function parseIDFromURL(raw) {
   // /?v=xxx  (video)
   if (p.get("v")) return p.get("v");
 
-  // /groups/xxx/posts/123456
-  const groupPost = path.match(/\/groups\/[^/]+\/posts\/(\d+)/);
+  // /groups/xxx/posts/123456  or  /groups/xxx/permalink/123456
+  const groupPost = path.match(/\/groups\/[^/]+\/(?:posts|permalink)\/(\d+)/);
   if (groupPost) return groupPost[1];
+
+  // /permalink/123456
+  const permalink = path.match(/\/permalink\/(\d+)/);
+  if (permalink) return permalink[1];
 
   return null;
 }
@@ -155,7 +159,6 @@ module.exports.config = {
 };
 
 module.exports.onStart = async function ({ api, event, args, message }) {
-  console.log("[DEBUG postreact] onStart called | sub:", args[0], "| args:", JSON.stringify(args));
   const sub = (args[0] || "").toLowerCase();
 
   if (!sub || !["react", "comment", "both", "spam"].includes(sub)) {
@@ -185,6 +188,16 @@ module.exports.onStart = async function ({ api, event, args, message }) {
 
   // সরাসরি parse করার চেষ্টা — fast path
   let postID = parseIDFromURL(rawUrl);
+
+  // event attachment-এ already resolved URL থাকলে সেখান থেকে নাও
+  if (!postID && event.attachments && event.attachments.length > 0) {
+    for (const att of event.attachments) {
+      if (att.type === "share" && att.url) {
+        postID = parseIDFromURL(att.url);
+        if (postID) break;
+      }
+    }
+  }
 
   // share/p/ বা অন্য format হলে fetch করে দেখো
   if (!postID) {
@@ -306,7 +319,6 @@ module.exports.onStart = async function ({ api, event, args, message }) {
 
   // ── SPAM ───────────────────────────────────────────────────────────────────
   if (sub === "spam") {
-    console.log("[DEBUG postreact] spam branch | rawUrl:", args[1]);
     const allAfterUrl = args.slice(2).join(" ").trim();
     if (!allAfterUrl) {
       return message.reply(

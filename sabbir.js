@@ -215,21 +215,16 @@ function createMessageHelper(api, event) {
 
     const helper = {
         reply: async function (msg, callback) {
-            const _body = typeof msg === 'string' ? msg.slice(0, 60) : (msg && msg.body || '').slice(0, 60);
-            console.log("[DEBUG reply] called | thread:", threadID, "| replyTo:", messageID, "| msg:", _body);
             try {
                 const isStr = typeof msg === 'string';
                 const msgObj = isStr ? { body: msg, mentions: [] } : { ...msg };
                 const fast = msgObj._fast === true;
                 if (!isStr) delete msgObj._fast;
                 if (!fast) await _typeAndWait(threadID, 2000);
-                console.log("[DEBUG reply] calling sendMessage...");
                 const info = await api.sendMessage(msgObj, threadID, null, messageID);
-                console.log("[DEBUG reply] sendMessage OK | msgID:", info && info.messageID);
                 if (typeof callback === 'function') callback(null, info);
                 return info;
             } catch (e) {
-                console.error("[DEBUG reply] sendMessage ERROR:", e && (e.error || e.message || e));
                 if (typeof callback === 'function') callback(e);
                 throw e;
             }
