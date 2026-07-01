@@ -109,7 +109,21 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 
 		// onStart — runs the actual `/command` handler
 		const onStart = async () => {
-			if (!command) return;
+			if (!command) {
+				// prefix দিয়ে কিছু টাইপ করা হয়েছে কিন্তু command পাওয়া যায়নি
+				if (body && body.startsWith(prefix) && commandName) {
+					try {
+						await message.reply(
+							`❌ ভুল Command!\n` +
+							`━━━━━━━━━━━━━━━━\n` +
+							`"${commandName}" নামে কোনো command নেই।\n\n` +
+							`📌 সব command দেখতে:\n` +
+							`${prefix}help`
+						);
+					} catch (_) {}
+				}
+				return;
+			}
 			const role = getRole(command);
 			const adminBot = config.adminBot || config.adminID || [];
 			if (role >= 2 && !adminBot.includes(senderID)) {
