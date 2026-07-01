@@ -10,11 +10,18 @@
  var log = require("npmlog");
  
  function formatData(resData) {
+   var fb = resData && resData.feedback_react && resData.feedback_react.feedback;
+   if (!fb) return {
+     viewer_feedback_reaction_info: null,
+     supported_reactions: null,
+     top_reactions: [],
+     reaction_count: null
+   };
    return {
-     viewer_feedback_reaction_info: resData.feedback_react.feedback.viewer_feedback_reaction_info,
-     supported_reactions: resData.feedback_react.feedback.supported_reactions,
-     top_reactions: resData.feedback_react.feedback.top_reactions.edges,
-     reaction_count: resData.feedback_react.feedback.reaction_count
+     viewer_feedback_reaction_info: fb.viewer_feedback_reaction_info,
+     supported_reactions: fb.supported_reactions,
+     top_reactions: (fb.top_reactions && Array.isArray(fb.top_reactions.edges)) ? fb.top_reactions.edges : [],
+     reaction_count: fb.reaction_count
    };
  }
  
@@ -53,13 +60,19 @@
        angry: 8
      };
      
-     if (utils.getType(type) !== "Number" && utils.getType(type) === "String") {
-       type = map[type.toLowerCase()];
-     }
-     else {
-       throw {
-         error: "setPostReaction: Invalid reaction type"
-       };
+     if (utils.getType(type) === "String") {
+       var mapped = map[type.toLowerCase()];
+       if (mapped === undefined) {
+         return callback({ error: "setPostReaction: Unknown reaction name '" + type + "'. Valid: " + Object.keys(map).join(", ") });
+       }
+       type = mapped;
+     } else if (utils.getType(type) === "Number") {
+       // Numeric reaction ID — must be a finite integer
+       if (!Number.isFinite(type) || !Number.isInteger(type)) {
+         return callback({ error: "setPostReaction: numeric reaction type must be a finite integer" });
+       }
+     } else {
+       return callback({ error: "setPostReaction: type must be a reaction name (string) or numeric ID" });
      }
      
      var form = {
