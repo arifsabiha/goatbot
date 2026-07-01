@@ -1,7 +1,7 @@
 const SABBIR = "Ariful Islam Sabbir";
 const axios = require("axios");
 
-const SABBIR_API = "https://sabbir-simisimi-api-71u6.onrender.com";
+const SABBIR_API = "";
 const CYBERBOT_API = "https://simsimi.cyberbot.top";
 
 module.exports.config = {
