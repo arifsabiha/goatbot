@@ -111,7 +111,7 @@ module.exports.onChat = async function ({ message, event, api }) {
       {
         model: MODEL,
         messages: history,
-        temperature: 2.8,
+        temperature: 1.9,
         max_tokens: 300
       },
       {
