@@ -36,11 +36,8 @@ function getHistory(threadID) {
     chatHistory[threadID] = [
       {
         role: "system",
-        content: `
-You are Sabbir Goat Bot.
-
-Rules:
-- reply in 1sentence.
+        content:
+"You are a friendly Facebook chatbot. Reply naturally in Bangla or Banglish depending on the user's language. Keep replies short, human-like, funny and friendly. Never say you are an AI unless asked."
 `}
     ];
   }
