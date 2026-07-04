@@ -1,12 +1,13 @@
 const SABBIR = "Ariful Islam Sabbir";
 const axios = require("axios");
 
-const SABBIR_API = "https://sabbir-simisimi-api-71u6.onrender.com";
-const CYBERBOT_API = "";
+const GROQ_API = "https://api.groq.com/openai/v1/chat/completions";
+const MODEL = "llama-3.3-70b-versatile";
+const API_KEY = process.env.GROQ_API_KEY;
 
 module.exports.config = {
   name: "autoreplybot",
-  version: "6.0.0",
+  version: "7.0.0",
   hasPermssion: 0,
   credits: "Ariful Islam Sabbir",
   hidden: true,
@@ -20,59 +21,135 @@ module.exports.onChat = async function ({ message, event, api }) {
   const botID = api.getCurrentUserID();
 
   if (!body || senderID == botID) return;
+
   const prefix = global.GoatBot?.config?.prefix || "/";
   if (body.startsWith(prefix) || body.startsWith("!")) return;
 
   const msg = body.toLowerCase().trim();
 
-  // ১. নির্দিষ্ট কিওয়ার্ড চেক (এগুলো থাকলে সরাসরি উত্তর দিবে)
   const quickResponses = {
-    "hi": "Hey!",
-    "assalamu alaikum": "walaikum assalam",
-    "আসসালামু আলাইকুম": "ওয়ালাইকুম আসসালাম",
-    "bot": "Did you just call me a bot? 😏",
-    "hello": "Hey there!",
-    "bby": "ki oise bby🥹",
-    "assalamualaikum": "Walaikumassalam"
+    "hi": "Hey! 👋",
+    "hello": "Hello ❤️",
+    "bot": "Yes? 😎",
+    "assalamu alaikum": "ওয়ালাইকুম আসসালাম ❤️",
+    "আসসালামু আলাইকুম": "ওয়ালাইকুম আসসালাম ❤️",
+    "assalamualaikum": "Walaikum Assalam ❤️",
+    "bby": "ki oise bby? 🥹"
   };
-  
-  if (quickResponses[msg]) return message.reply(quickResponses[msg]);
 
-  // ২. রিপ্লাই চেক: যদি কেউ বটের মেসেজে রিপ্লাই না দেয়, তবে বট চুপ থাকবে
-  // শুধুমাত্র নির্দিষ্ট কিওয়ার্ড ছাড়া অন্য সব কথার জন্য এই নিয়ম
-  if (type !== "message_reply" || messageReply.senderID !== botID) return;
+  if (quickResponses[msg]) {
+    return message.reply(quickResponses[msg]);
+  }
+
+  if (
+    type !== "message_reply" ||
+    !messageReply ||
+    messageReply.senderID != botID
+  ) {
+    return;
+  }
+
+  if (!API_KEY) {
+    return message.reply("❌ GROQ_API_KEY not found.");
+  }
 
   try {
-    const resCyber = await axios.get(`${CYBERBOT_API}/simsimi?text=${encodeURIComponent(body)}`);
-    let botReply = resCyber.data.text || resCyber.data.response;
-
-    if (botReply && !botReply.includes("I don't know")) {
-      const cleanReply = botReply.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '').trim();
-      const finalMsg = cleanReply || "Hmm..."; 
-      
-      message.reply(finalMsg);
-
-      // 3. Auto-save response
-      if (finalMsg !== "Hmm...") {
-        const teachUrl = `${SABBIR_API}/teach?ask=${encodeURIComponent(body)}&ans=${encodeURIComponent(finalMsg)}`;
-        axios.get(teachUrl).catch(() => {});
+    const response = await axios.post(
+      GROQ_API,
+      {
+        model: MODEL,
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a friendly Facebook chatbot. Reply naturally in Bangla or Banglish depending on the user's language. Keep replies short, human-like and friendly."
+          },
+          {
+            role: "user",
+            content: body
+          }
+        ],
+        temperature: 0.8,
+        max_tokens: 300
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        timeout: 30000
       }
+    );
+
+    let botReply =
+      response.data?.choices?.[0]?.message?.content?.trim();
+
+    if (!botReply) {
+      botReply = "Hmm... 🤔";
     }
+
+    return message.reply(botReply);
+
   } catch (err) {
-    console.log("Reply Error: " + err.message);
+    console.log(
+      "Groq Error:",
+      err.response?.data || err.message
+    );
+
+    return message.reply("⚠️ AI is busy. Try again later.");
   }
 };
-
 module.exports.onStart = async function ({ message, args }) {
-  // onStart handles direct command usage
+  if (!API_KEY) {
+    return message.reply("❌ GROQ_API_KEY not found.");
+  }
+
   const input = args.join(" ");
-  if (!input) return message.reply("Say something...");
+
+  if (!input) {
+    return message.reply("❓ Please enter a message.");
+  }
+
   try {
-    const res = await axios.get(`${CYBERBOT_API}/simsimi?text=${encodeURIComponent(input)}`);
-    let reply = res.data.text || res.data.response;
-    const cleanReply = reply.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '').trim();
-    message.reply(cleanReply || "Hmm...");
-  } catch (e) {
-    message.reply("Server down.");
+    const response = await axios.post(
+      GROQ_API,
+      {
+        model: MODEL,
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a friendly Facebook chatbot. Reply naturally in Bangla or Banglish depending on the user's language. Keep replies short, human-like and friendly."
+          },
+          {
+            role: "user",
+            content: input
+          }
+        ],
+        temperature: 0.8,
+        max_tokens: 300
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        timeout: 30000
+      }
+    );
+
+    const reply =
+      response.data?.choices?.[0]?.message?.content?.trim() ||
+      "Hmm... 🤔";
+
+    return message.reply(reply);
+
+  } catch (err) {
+    console.log(
+      "Groq Error:",
+      err.response?.data || err.message
+    );
+
+    return message.reply("⚠️ AI is busy. Try again later.");
   }
 };
