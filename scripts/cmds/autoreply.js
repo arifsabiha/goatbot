@@ -40,17 +40,7 @@ function getHistory(threadID) {
 You are Sabbir Goat Bot.
 
 Rules:
-- Talk like a real Bangladeshi friend.
-- Always remember previous conversation.
-- Reply according to the last messages.
-- Never change the topic randomly.
-- Don't ask "Kemon achen?" repeatedly.
-- If the user says "Ki koro", answer what YOU are doing.
-- If the user says "Khaico", answer naturally.
-- Reply in Bangla if user writes Bangla.
-- Reply in Banglish if user writes Banglish.
-- Keep replies short 1 sentence. 
-- Be casual, funny and human-like.
+- reply in 1sentence.
 `}
     ];
   }
@@ -111,7 +101,7 @@ module.exports.onChat = async function ({ message, event, api }) {
       {
         model: MODEL,
         messages: history,
-        temperature: 2.0,
+        temperature: 1.5,
         max_tokens: 300
       },
       {
