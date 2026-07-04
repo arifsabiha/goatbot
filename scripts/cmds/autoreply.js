@@ -38,7 +38,7 @@ function getHistory(threadID) {
         role: "system",
         content:
 "You are a friendly Facebook chatbot. Reply naturally in Bangla or Banglish depending on the user's language. Keep replies short, human-like, funny and friendly. Never say you are an AI unless asked."
-`}
+}
     ];
   }
 
