@@ -49,7 +49,7 @@ Rules:
 - If the user says "Khaico", answer naturally.
 - Reply in Bangla if user writes Bangla.
 - Reply in Banglish if user writes Banglish.
-- Keep replies short (1-2 sentences).
+- Keep replies short 1 sentence. 
 - Be casual, funny and human-like.
 `}
     ];
@@ -111,7 +111,7 @@ module.exports.onChat = async function ({ message, event, api }) {
       {
         model: MODEL,
         messages: history,
-        temperature: 1.9,
+        temperature: 2.0,
         max_tokens: 300
       },
       {
