@@ -1,178 +1,120 @@
 const axios = require("axios");
 
-//const API_KEY = "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";
-const GROQ_API = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = "llama-3.3-70b-versatile";
+const API_URL = "https://mahmud-rest-api-v9.onrender.com/api/hinata";
 
-// Memory Cache
-const chatHistory = {};
-const MAX_HISTORY = 50;
+const triggers = [
+  "baby",
+  "bby",
+  "babu",
+  "bbu",
+  "jan",
+  "janu",
+  "bot",
+  "hina",
+  "hinata",
+  "জান",
+  "জানু",
+  "বেবি"
+];
 
-// Quick Reply
-const quickReplies = {
-  "hi": "Hey! 👋",
-  "hello": "Hello ❤️",
-  "assalamu alaikum": "ওয়ালাইকুম আসসালাম ❤️",
-  "assalamualaikum": "Walaikum Assalam ❤️",
-  "আসসালামু আলাইকুম": "ওয়ালাইকুম আসসালাম ❤️",
-  "bby": "ki oise bby? 🥹",
-  "bot": "Yes? 😎"
-};
-
-module.exports.config = {
-  name: "autoreplybot",
-  version: "8.0.0",
-  hasPermssion: 0,
-  credits: "Ariful Islam Sabbir + ChatGPT",
-  hidden: true,
-  usePrefix: false,
-  category: "Chat",
-  cooldowns: 1
-};
-
-// Memory Functions
-function getHistory(threadID) {
-  if (!chatHistory[threadID]) {
-    chatHistory[threadID] = [
-      {
-        role: "system",
-        content:
-"You are a friendly Facebook chatbot. Reply naturally in Bangla or Banglish depending on the user's language. Keep replies short, human-like, funny and friendly. Never say you are an AI unless asked."
-}
-    ];
-  }
-
-  return chatHistory[threadID];
-}
-
-function addMessage(threadID, role, content) {
-  const history = getHistory(threadID);
-
-  history.push({
-    role,
-    content
-  });
-
-  if (history.length > MAX_HISTORY) {
-    history.splice(1, history.length - MAX_HISTORY);
-  }
-}
-module.exports.onChat = async function ({ message, event, api }) {
-  const { body, senderID, type, messageReply } = event;
-  const botID = api.getCurrentUserID();
-
-  if (!body || senderID == botID) return;
-
-  const prefix = global.GoatBot?.config?.prefix || "/";
-  if (body.startsWith(prefix) || body.startsWith("!")) return;
-
-  const text = body.trim().toLowerCase();
-
-  // Quick Reply
-  if (quickReplies[text]) {
-    return message.reply(quickReplies[text]);
-  }
-
-  // শুধুমাত্র বটের মেসেজে reply করলে AI উত্তর দিবে
-  if (
-    type !== "message_reply" ||
-    !messageReply ||
-    messageReply.senderID != botID
-  ) {
-    return;
-  }
-
-  if (!API_KEY || API_KEY === "YOUR_GROQ_API_KEY") {
-    return message.reply("❌ GROQ_API_KEY not configured.");
-  }
-
-  const threadID = event.threadID;
-
-  addMessage(threadID, "user", body);
-
+async function chat(text, attachments = []) {
   try {
-    const history = getHistory(threadID);
+    const { data } = await axios.post(API_URL, {
+      text,
+      style: 3,
+      attachments
+    });
 
-    const response = await axios.post(
-      GROQ_API,
-      {
-        model: MODEL,
-        messages: history,
-        temperature: 1.5,
-        max_tokens: 300
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${API_KEY}`,
-          "Content-Type": "application/json"
-        },
-        timeout: 30000
-      }
-    );
+    return data.message || "🙂";
+  } catch (e) {
+    console.log(e.response?.data || e.message);
+    return "⚠️ AI is busy. Try again later.";
+  }
+}
 
-    let reply =
-      response.data?.choices?.[0]?.message?.content?.trim() ||
-      "Hmm... 🤔";
+module.exports = {
+  config: {
+    name: "baby",
+    aliases: [
+      "bby",
+      "bbu",
+      "jan",
+      "janu",
+      "bot",
+      "hina",
+      "hinata"
+    ],
+    version: "1.0.0",
+    author: "Sabbir",
+    role: 0,
+    countDown: 0,
+    shortDescription: "AI Chat",
+    longDescription: "Facebook AI Chat",
+    category: "chat",
+    guide: "{pn} <message>"
+  },
+onStart: async function ({ message, args, event }) {
+    const input = args.join(" ").trim();
 
-    addMessage(threadID, "assistant", reply);
+    if (!input) {
+      return message.reply("🙂 Bolo baby...");
+    }
+
+    const reply = await chat(input, event.attachments || []);
 
     return message.reply(reply);
+  },
+onReply: async function ({ message, event }) {
+    if (event.type !== "message_reply") return;
 
-  } catch (err) {
-    console.log(
-      "[Groq Error]",
-      err.response?.data || err.message
-    );
+    const input = (event.body || "").trim();
 
-    return message.reply("⚠️ AI is busy, try again later.");
+    if (!input) return;
+
+    const reply = await chat(input, event.attachments || []);
+
+    const info = await message.reply(reply);
+
+    global.GoatBot.onReply.set(info.messageID, {
+      commandName: "baby",
+      author: event.senderID
+    });
+  },
+onChat: async function ({ message, event }) {
+    if (!event.body) return;
+
+    const body = event.body.trim();
+    const lower = body.toLowerCase();
+
+    const prefix = triggers.find(word => lower.startsWith(word));
+    if (!prefix) return;
+
+    let text = body.slice(prefix.length).trim();
+
+    if (!text) {
+      const random = [
+        "🙂 বলো...",
+        "😊 কী বলবে?",
+        "❤️ আমি শুনছি...",
+        "🙈 হ্যাঁ বলো।",
+        "🤍 তোমার জন্য আছি।"
+      ];
+
+      return message.reply(
+        random[Math.floor(Math.random() * random.length)]
+      );
+    }
+
+    const reply = await chat(text, event.attachments || []);
+
+    const info = await message.reply(reply);
+
+    global.GoatBot.onReply.set(info.messageID, {
+      commandName: "baby",
+      author: event.senderID
+    });
   }
 };
-module.exports.onStart = async function ({ message, args, event }) {
-  if (!API_KEY || API_KEY === "YOUR_GROQ_API_KEY") {
-    return message.reply("❌ GROQ_API_KEY not configured.");
-  }
 
-  const input = args.join(" ").trim();
 
-  if (!input) {
-    return message.reply("❓ Please enter a message.");
-  }
 
-  const threadID = event.threadID;
-
-  addMessage(threadID, "user", input);
-
-  try {
-    const history = getHistory(threadID);
-
-    const response = await axios.post(
-      GROQ_API,
-      {
-        model: MODEL,
-        messages: history,
-        temperature: 0.8,
-        max_tokens: 300
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${API_KEY}`,
-          "Content-Type": "application/json"
-        },
-        timeout: 30000
-      }
-    );
-
-    let reply =
-      response.data?.choices?.[0]?.message?.content?.trim() ||
-      "Hmm... 🤔";
-
-    addMessage(threadID, "assistant", reply);
-
-    return message.reply(reply);
-
-  } catch (err) {
-    console.log("[Groq Error]", err.response?.data || err.message);
-
-    return message.reply("⚠️ AI is busy, try again later.");
-  }
-};
