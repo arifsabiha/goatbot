@@ -22,7 +22,7 @@ module.exports.config = {
   name: "kick",
   version: "1.5.0",
   role: 1,
-  hasPermssion: 1,
+  hasPermssion: 2,
   credits: "Ariful Islam Sabbir",
   description: "Group theke user kick kora",
   usePrefix: true,
