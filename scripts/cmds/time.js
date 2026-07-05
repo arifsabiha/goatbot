@@ -1,29 +1,46 @@
-const SABBIR = "Ariful Islam Sabbir";
-const moment = require("moment-timezone");
+const axios = require('axios');
 
-module.exports.config = {
-  name: "time",
-  version: "1.0.0",
-  hasPermssion: 0,
-  credits: "Ariful Islam Sabbir",
-  description: "Show current time and date",
-  usePrefix: true,
-  category: "Info",
-  usages: "time",
-  cooldowns: 3
+const baseApiUrl = async () => {
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+  return base.data.mahmud;
 };
 
-module.exports.onStart = async function ({ message }) {
-  const now = moment().tz("Asia/Dhaka");
+module.exports = {
+  config: {
+    name: "time",
+    version: "1.7",
+    author: "MahMUD",
+    countDown: 2,
+    role: 0,
+    category: "utility",
+    guide: "{pn} [country] | {pn} list\n\nExamples:\n{pn} bangladesh\n{pn} london\n{pn} list"
+  },
 
-  const date = now.format("DD MMMM YYYY");
-  const time = now.format("hh:mm:ss A");
-  const day = now.format("dddd");
+  onStart: async function ({ message, args }) {
+    const country = args[0]?.toLowerCase() || "bangladesh";
 
-  return message.reply(
-    `🕐 Current Time:\n\n` +
-    `📅 Date: ${date}\n` +
-    `📆 Day: ${day}\n` +
-    `⏰ Time: ${time} (BD)`
-  );
+   try {
+    const baseUrl = await baseApiUrl();
+
+    if (country === "list") {
+    const listRes = await axios.get(`${baseUrl}/api/time/list`, {
+    headers: { "author": module.exports.config.author }
+        });
+
+     return listRes.data.message
+   ? message.reply(listRes.data.message)
+   : message.reply("⚠️ Unable to fetch country list.");
+    }
+
+      const timeRes = await axios.get(`${baseUrl}/api/time/${country}`, {
+      headers: { "author": module.exports.config.author }
+    });
+
+      return timeRes.data.message
+    ? message.reply(timeRes.data.message)
+    : message.reply("⚠️ Unable to fetch time.");
+    } catch (error) {
+      return message.reply("🥹error, contact MahMUD.");
+    }
+  }
 };

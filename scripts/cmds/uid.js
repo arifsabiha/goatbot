@@ -1,56 +1,63 @@
-const SABBIR = "Ariful Islam Sabbir";
-const { resolveTargets } = require("../../utils/resolveTarget.js");
+const { findUid } = global.utils;
+const regExCheckURL = /^(http|https):\/\/[^ "]+$/;
 
-module.exports.config = {
-  name: "uid",
-  version: "1.2.0",
-  hasPermssion: 0,
-  credits: "Ariful Islam Sabbir",
-  description: "Show your own or someone else's UID",
-  usePrefix: true,
-  category: "Info",
-  usages: "uid [@mention | @name | reply | uid]",
-  cooldowns: 3
-};
+module.exports = {
+	config: {
+		name: "uid",
+		version: "1.3",
+		author: "NTKhang",
+		countDown: 5,
+		role: 0,
+		description: {
+			vi: "Xem user id facebook của người dùng",
+			en: "View facebook user id of user"
+		},
+		category: "info",
+		guide: {
+			vi: "   {pn}: dùng để xem id facebook của bạn"
+				+ "\n   {pn} @tag: xem id facebook của những người được tag"
+				+ "\n   {pn} <link profile>: xem id facebook của link profile"
+				+ "\n   Phản hồi tin nhắn của người khác kèm lệnh để xem id facebook của họ",
+			en: "   {pn}: use to view your facebook user id"
+				+ "\n   {pn} @tag: view facebook user id of tagged people"
+				+ "\n   {pn} <profile link>: view facebook user id of profile link"
+				+ "\n   Reply to someone's message with the command to view their facebook user id"
+		}
+	},
 
-module.exports.onStart = async function ({ api, message, event, args }) {
-  // Argument na thakle nije'r UID dao
-  const hasArgOrReply = (args && args.length > 0) || event.messageReply || (event.mentions && Object.keys(event.mentions).length > 0);
-  if (!hasArgOrReply) {
-    return message.reply(`🆔 Your UID:\n\n🔢 ${event.senderID}`);
-  }
+	langs: {
+		vi: {
+			syntaxError: "Vui lòng tag người muốn xem uid hoặc để trống để xem uid của bản thân"
+		},
+		en: {
+			syntaxError: "Please tag the person you want to view uid or leave it blank to view your own uid"
+		}
+	},
 
-  const result = await resolveTargets({ api, event, args });
+	onStart: async function ({ message, event, args, getLang }) {
+		if (event.messageReply)
+			return message.reply(event.messageReply.senderID);
+		if (!args[0])
+			return message.reply(event.senderID);
+		if (args[0].match(regExCheckURL)) {
+			let msg = '';
+			for (const link of args) {
+				try {
+					const uid = await findUid(link);
+					msg += `${link} => ${uid}\n`;
+				}
+				catch (e) {
+					msg += `${link} (ERROR) => ${e.message}\n`;
+				}
+			}
+			message.reply(msg);
+			return;
+		}
 
-  if (result.ambiguous) {
-    let text = `⚠️ "${result.query}" — eki rokom name er ekadhik jon paoa gechhe. Specific kore din:\n\n`;
-    result.candidates.forEach((c, i) => {
-      text += `${i + 1}. ${c.name || "(no name)"} — 🔢 ${c.uid}\n`;
-    });
-    return message.reply(text.trim());
-  }
-
-  if (result.targets.length === 0) {
-    if (result.error) return message.reply(`❌ Group info ana jaai ni: ${result.error}`);
-    let msg = `❌ "${result.query || (args || []).join(" ")}" name er kau ke ei group e paini.`;
-    if (result.available && result.available.length > 0) {
-      msg += `\n\n📋 Group e ${result.totalParticipants} jon ache. Kichu name (UID shoho):\n`;
-      result.available.forEach((c, i) => { msg += `${i + 1}. ${c.name} — 🔢 ${c.uid}\n`; });
-      msg += `\nTry koro: /uid <UID>`;
-    } else {
-      msg += `\n\nTry koro:\n• Real @mention diye\n• Reply diye\n• Direct UID diye`;
-    }
-    return message.reply(msg.trim());
-  }
-
-  if (result.targets.length === 1 && result.targets[0].source === "reply") {
-    return message.reply(`🆔 UID of the replied user:\n\n🔢 ${result.targets[0].uid}`);
-  }
-
-  let text = `🆔 UID Info:\n\n`;
-  for (const t of result.targets) {
-    const label = t.name ? `👤 ${t.name}\n` : "";
-    text += `${label}🔢 UID: ${t.uid}\n\n`;
-  }
-  return message.reply(text.trim());
+		let msg = "";
+		const { mentions } = event;
+		for (const id in mentions)
+			msg += `${mentions[id].replace("@", "")}: ${id}\n`;
+		message.reply(msg || getLang("syntaxError"));
+	}
 };

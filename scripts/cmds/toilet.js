@@ -1,140 +1,73 @@
- const axios = require("axios");
-const Jimp = require("jimp");
-const fs = require("fs-extra");
+const axios = require("axios");
+const fs = require("fs");
 const path = require("path");
 
-// resolveTarget.js pwd diye call
-const resolvePath = path.join(process.cwd(), "utils", "resolveTarget.js");
-
-let resolveTargets;
-
-try {
-  resolveTargets = require(resolvePath).resolveTargets;
-} catch (e) {
-  console.log("resolveTarget utility not found.");
-}
-
-module.exports.config = {
-  name: "toilet",
-  version: "1.0.0",
-  hasPermssion: 0,
-  credits: "Ariful Islam Sabbir",
-  description: "Toilet meme edit",
-  usePrefix: true,
-  category: "Edit",
-  usages: "toilet [@mention | reply]",
-  cooldowns: 5
+const baseApiUrl = async () => {
+  const base = await axios.get(
+    "https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json"
+  );
+  return base.data.mahmud;
 };
 
-module.exports.onStart = async function ({ api, event, args }) {
+/**
+* @author MahMUD
+* @author: do not delete it
+*/
 
-  const { threadID, messageID, senderID } = event;
+module.exports = {
+  config: {
+    name: "toilet",
+    version: "1.7",
+    author: "MahMUD",
+    role: 0,
+    category: "fun",
+    cooldown: 10,
+    guide: "[mention/reply/UID]",
+  },
 
-  try {
-
-    let targetID = null;
-
-    if (resolveTargets) {
-
-      const result = await resolveTargets({
-        api,
-        event,
-        args
-      });
-
-      if (result.targets && result.targets.length > 0) {
-        targetID = result.targets[0].uid;
-      }
-
-    } else {
-
-      if (event.messageReply) {
-        targetID = event.messageReply.senderID;
-      }
-
-      else if (Object.keys(event.mentions || {}).length > 0) {
-        targetID = Object.keys(event.mentions)[0];
-      }
-
+  onStart: async function({ api, event, args }) {
+    const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68); 
+    if (module.exports.config.author !== obfuscatedAuthor) {
+      return api.sendMessage(
+        "You are not authorized to change the author name.\n", 
+        event.threadID, 
+        event.messageID
+      );
     }
 
-    if (!targetID) {
+    const { senderID, mentions, threadID, messageID, messageReply } = event;
+    let id;
+    if (Object.keys(mentions).length > 0) {
+      id = Object.keys(mentions)[0];
+    } else if (messageReply) {
+      id = messageReply.senderID;
+    } else if (args[0]) {
+      id = args[0]; 
+    } else {
       return api.sendMessage(
-        "⚠️ Doya kore kauke mention/reply korun!",
+        "❌ Mention, reply, or give UID to make toilet someone",
         threadID,
         messageID
       );
     }
 
-    const userInfo = await api.getUserInfo(targetID);
+    try {
+      const apiUrl = await baseApiUrl();
+      const url = `${apiUrl}/api/toilet?user=${id}`;
 
-    const targetName = userInfo[targetID]
-      ? userInfo[targetID].name
-      : "Unknown";
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+      const filePath = path.join(__dirname, `toilet_${id}.png`);
+      fs.writeFileSync(filePath, response.data);
+      
+      api.sendMessage(
+        { attachment: fs.createReadStream(filePath), body: "Here's your toilet image 🐸" },
+        threadID,
+        () => fs.unlinkSync(filePath),
+        messageID
+      );
 
-    // Template image
-    const imgLink = "https://i.imgur.com/Q5ngMex.jpeg";
-
-    const token =
-      "6628568379%7Cc1e620fa708a1d5696fb991c1bde5662";
-
-    // Profile Picture URL
-    const targetURL =
-      `https://graph.facebook.com/${targetID}/picture?width=512&height=512&access_token=${token}`;
-
-    const cachePath = path.join(
-      process.cwd(),
-      "cache",
-      `toilet_${senderID}_${targetID}.png`
-    );
-
-    const [baseImage, targetPP] = await Promise.all([
-
-      Jimp.read(imgLink),
-
-      Jimp.read(
-        (
-          await axios.get(targetURL, {
-            responseType: "arraybuffer"
-          })
-        ).data
-      )
-
-    ]);
-
-    // PP resize + circle
-    targetPP.circle().resize(110, 110);
-
-    // Position
-    baseImage.composite(targetPP, 190, 440);
-
-    // Save final image
-    await baseImage.writeAsync(cachePath);
-
-    return api.sendMessage(
-      {
-        body: `🚽 ${targetName} আবলামি করার জন্য তুরে টয়লেটে ফেলে দেওয়া হলো 😹`,
-        attachment: fs.createReadStream(cachePath)
-      },
-      threadID,
-      () => {
-        if (fs.existsSync(cachePath)) {
-          fs.unlinkSync(cachePath);
-        }
-      },
-      messageID
-    );
-
-  } catch (err) {
-
-    console.error(err);
-
-    return api.sendMessage(
-      `❌ Error: ${err.message}`,
-      threadID,
-      messageID
-    );
-
+    } catch (err) {
+      api.sendMessage(`🥹error, contact MahMUD.`, threadID, messageID);
+    }
   }
-
 };

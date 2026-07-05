@@ -1,86 +1,140 @@
-const SABBIR = "Ariful Islam Sabbir";
-const axios = require("axios");
-const { getName } = require("../../utils/getName.js");
+const { findUid } = global.utils;
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-module.exports.config = {
-  name: "adduser",
-  version: "1.3.0",
-  role: 1,
-  credits: "Ariful Islam Sabbir",
-  hidden: false,
-  usePrefix: true,
-  category: "group",
-  countDown: 2,
-  guide: {
-    bn: "{pn} <uid> or {pn} <facebook profile link>",
-    en: "{pn} <uid> or {pn} <facebook profile link>"
-  }
-};
+module.exports = {
+	config: {
+		name: "adduser",
+		version: "1.5",
+		author: "NTKhang",
+		countDown: 5,
+		role: 1,
+		description: {
+			vi: "Thêm thành viên vào box chat của bạn",
+			en: "Add user to box chat of you"
+		},
+		category: "box chat",
+		guide: {
+			en: "   {pn} [link profile | uid]"
+		}
+	},
 
-module.exports.onStart = async function ({ api, event, args, message }) {
-  const { threadID } = event;
+	langs: {
+		vi: {
+			alreadyInGroup: "Đã có trong nhóm",
+			successAdd: "- Đã thêm thành công %1 thành viên vào nhóm",
+			failedAdd: "- Không thể thêm %1 thành viên vào nhóm",
+			approve: "- Đã thêm %1 thành viên vào danh sách phê duyệt",
+			invalidLink: "Vui lòng nhập link facebook hợp lệ",
+			cannotGetUid: "Không thể lấy được uid của người dùng này",
+			linkNotExist: "Profile url này không tồn tại",
+			cannotAddUser: "Bot bị chặn tính năng hoặc người dùng này chặn người lạ thêm vào nhóm"
+		},
+		en: {
+			alreadyInGroup: "Already in group",
+			successAdd: "- Successfully added %1 members to the group",
+			failedAdd: "- Failed to add %1 members to the group",
+			approve: "- Added %1 members to the approval list",
+			invalidLink: "Please enter a valid facebook link",
+			cannotGetUid: "Cannot get uid of this user",
+			linkNotExist: "This profile url does not exist",
+			cannotAddUser: "Bot is blocked or this user blocked strangers from adding to the group"
+		}
+	},
 
-  if (!args[0]) return message.reply("📌 Please provide a UID or Facebook profile link.");
+	onStart: async function ({ message, api, event, args, threadsData, getLang }) {
+		const { members, adminIDs, approvalMode } = await threadsData.get(event.threadID);
+		const botID = api.getCurrentUserID();
 
-  const input = args[0].trim();
+		const success = [
+			{
+				type: "success",
+				uids: []
+			},
+			{
+				type: "waitApproval",
+				uids: []
+			}
+		];
+		const failed = [];
 
-  if (/^\d+$/.test(input)) {
-    return await addUserToGroup(input);
-  }
+		function checkErrorAndPush(messageError, item) {
+			item = item.replace(/(?:https?:\/\/)?(?:www\.)?(?:facebook|fb|m\.facebook)\.(?:com|me)/i, '');
+			const findType = failed.find(error => error.type == messageError);
+			if (findType)
+				findType.uids.push(item);
+			else
+				failed.push({
+					type: messageError,
+					uids: [item]
+				});
+		}
 
-  if (!/facebook\.com|fb\.com|fb\.me/i.test(input)) {
-    return message.reply("⚠️ Please provide a valid Facebook profile link.");
-  }
+		const regExMatchFB = /(?:https?:\/\/)?(?:www\.)?(?:facebook|fb|m\.facebook)\.(?:com|me)\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-\.]+)(?:\/)?/i;
+		for (const item of args) {
+			let uid;
+			let continueLoop = false;
 
-  let uid = null;
-  try {
-    const res = await axios.get(input, {
-      headers: { "User-Agent": "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36" },
-      timeout: 15000
-    });
-    const data = res.data || "";
-    const m1 = data.match(/"userID":"(\d+)"/);
-    const m2 = data.match(/"actor_id":"?(\d+)"?/);
-    const m3 = data.match(/profile_id=(\d+)/);
-    uid = (m1 && m1[1]) || (m2 && m2[1]) || (m3 && m3[1]);
-  } catch (e) {
-    return message.reply("❌ Could not extract UID from the link.");
-  }
+			if (isNaN(item) && regExMatchFB.test(item)) {
+				for (let i = 0; i < 10; i++) {
+					try {
+						uid = await findUid(item);
+						break;
+					}
+					catch (err) {
+						if (err.name == "SlowDown" || err.name == "CannotGetData") {
+							await sleep(1000);
+							continue;
+						}
+						else if (i == 9 || (err.name != "SlowDown" && err.name != "CannotGetData")) {
+							checkErrorAndPush(
+								err.name == "InvalidLink" ? getLang('invalidLink') :
+									err.name == "CannotGetData" ? getLang('cannotGetUid') :
+										err.name == "LinkNotExist" ? getLang('linkNotExist') :
+											err.message,
+								item
+							);
+							continueLoop = true;
+							break;
+						}
+					}
+				}
+			}
+			else if (!isNaN(item))
+				uid = item;
+			else
+				continue;
 
-  if (!uid) return message.reply("❌ Could not find UID from this link.");
+			if (continueLoop == true)
+				continue;
 
-  return await addUserToGroup(uid);
+			if (members.some(m => m.userID == uid && m.inGroup)) {
+				checkErrorAndPush(getLang("alreadyInGroup"), item);
+			}
+			else {
+				try {
+					await api.addUserToGroup(uid, event.threadID);
+					if (approvalMode === true && !adminIDs.includes(botID))
+						success[1].uids.push(uid);
+					else
+						success[0].uids.push(uid);
+				}
+				catch (err) {
+					checkErrorAndPush(getLang("cannotAddUser"), item);
+				}
+			}
+		}
 
-  async function addUserToGroup(uid) {
-    try {
-      uid = String(uid);
-      const info = await api.getThreadInfo(threadID);
-      const participantIDs = (info.participantIDs || []).map(String);
-      const adminIDs = (info.adminIDs || []).map(a => String((a && a.id) ? a.id : a));
-      const botID = String(api.getCurrentUserID());
+		const lengthUserSuccess = success[0].uids.length;
+		const lengthUserWaitApproval = success[1].uids.length;
+		const lengthUserError = failed.length;
 
-      if (participantIDs.includes(uid)) {
-        const name = await getName(api, uid, "this user");
-        return message.reply(`ℹ️ ${name} is already in the group.`);
-      }
-
-      await api.addUserToGroup(uid, threadID);
-
-      const name = await getName(api, uid, "User");
-
-      if (info.approvalMode === true && !adminIDs.includes(botID)) {
-        return message.reply(`📩 ${name} has been sent a join request. An admin needs to approve it.`);
-      }
-
-      return message.reply(`✅ ${name} has been successfully added!`);
-    } catch (err) {
-      return message.reply(
-        `❌ Could not add user!\n` +
-        `Possible reasons:\n` +
-        `• User privacy settings prevent being added\n` +
-        `• User is not in bot's friend list\n` +
-        `• Group approval mode is on but bot is not admin`
-      );
-    }
-  }
+		let msg = "";
+		if (lengthUserSuccess)
+			msg += `${getLang("successAdd", lengthUserSuccess)}\n`;
+		if (lengthUserWaitApproval)
+			msg += `${getLang("approve", lengthUserWaitApproval)}\n`;
+		if (lengthUserError)
+			msg += `${getLang("failedAdd", failed.reduce((a, b) => a + b.uids.length, 0))} ${failed.reduce((a, b) => a += `\n    + ${b.uids.join('\n       ')}: ${b.type}`, "")}`;
+		await message.reply(msg);
+	}
 };

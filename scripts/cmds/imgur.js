@@ -1,45 +1,78 @@
 const axios = require("axios");
 
-module.exports.config = {
-  name: "imgur",
-  version: "1.0.0",
-  role: 0,
-  credits: "Sabbir (modified)",
-  description: "ছবিতে রিপ্লাই দিয়ে ইমগুর লিঙ্ক তৈরি করুন",
-  usePrefix: true,
-  category: "tools",
-  usages: "Reply to any image",
-  cooldowns: 5
+const baseApiUrl = async () => {
+        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        return base.data.mahmud;
 };
 
-module.exports.onStart = async function ({ api, event }) {
-  try {
-    const { messageReply, threadID, messageID } = event;
-
-    if (!messageReply || !messageReply.attachments || messageReply.attachments.length === 0) {
-      return api.sendMessage("⚠️ Please reply to an image.", threadID, messageID);
-    }
-
-    const imageUrl = messageReply.attachments[0].url;
-
-    const res = await axios.post(
-      "https://api.imgur.com/3/image",
-      {
-        image: imageUrl,
-        type: "url",
-      },
-      {
-        headers: {
-          Authorization: "Client-ID 546c25a59c58ad7", // demo client ID
+module.exports = {
+        config: {
+                name: "imgur",
+                aliases: ["i"],
+                version: "1.8",
+                author: "MahMUD",
+                countDown: 10,
+                role: 0,
+                description: {
+                        bn: "যেকোনো ছবি বা ভিডিওকে Imgur লিঙ্কে রূপান্তর করুন",
+                        en: "Convert any image or video into an Imgur link",
+                        vi: "Chuyển đổi bất kỳ hình ảnh hoặc video nào thành liên kết Imgur"
+                },
+                category: "tools",
+                guide: {
+                        bn: '   {pn}: মিডিয়া ফাইলে রিপ্লাই দিয়ে ব্যবহার করুন',
+                        en: '   {pn}: Reply to a media file to get the link',
+                        vi: '   {pn}: Phản hồi tệp phương tiện để lấy liên kết'
+                }
         },
-      }
-    );
 
-    const link = res.data.data.link;
-    return api.sendMessage(`✅ Imgur Upload Complete!\n\n🔗 ${link}`, threadID, messageID);
+        langs: {
+                bn: {
+                        noMedia: "× বেবি, একটি ছবি বা ভিডিওতে রিপ্লাই দাও!",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD|\n•WhatsApp: 01836298139"
+                },
+                en: {
+                        noMedia: "× Baby, please reply to a media file!",
+                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
+                },
+                vi: {
+                        noMedia: "× Cưng ơi, hãy phản hồi một tệp phương tiện!",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
+                }
+        },
 
-  } catch (err) {
-    console.error(err);
-    return api.sendMessage("❌ Upload failed!", event.threadID, event.messageID);
-  }
+        onStart: async function ({ api, event, message, getLang }) {
+                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
+                if (this.config.author !== authorName) {
+                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+                }
+
+                if (event.type !== "message_reply" || !event.messageReply.attachments.length) {
+                        return message.reply(getLang("noMedia"));
+                }
+
+                try {
+                        api.setMessageReaction("⏳", event.messageID, () => {}, true);
+
+                        const attachmentUrl = event.messageReply.attachments[0].url;
+                        const baseUrl = await baseApiUrl();
+                        
+                        const response = await axios.get(`${baseUrl}/api/imgur`, {
+                                params: {
+                                        url: attachmentUrl
+                                }
+                        });
+
+                        const replyLink = response.data.link || "No link received.";
+                        api.setMessageReaction("✅", event.messageID, () => {}, true);
+
+                        return message.reply(replyLink);
+
+                } catch (err) {
+                        console.error("Imgur Error:", err);
+                        api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        const errorMsg = err.response?.data?.error || err.message;
+                        return message.reply(getLang("error", errorMsg));
+                }
+        }
 };

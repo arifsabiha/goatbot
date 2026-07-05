@@ -1,44 +1,41 @@
-const SABBIR = "Ariful Islam Sabbir";
-module.exports.config = {
-  name: "uptime",
-  version: "1.0.0",
-  hasPermssion: 0,
-  credits: "Ariful Islam Sabbir",
-  description: "Show how long the bot has been running",
-  usePrefix: true,
-  category: "Info",
-  usages: "uptime",
-  cooldowns: 3
-};
+ module.exports = {
+  config: {
+    name: "uptime",
+    aliases: ["upt"],
+    version: "1.7",
+    author: "MahMUD",
+    role: 0,
+    category: "general",
+    guide: {
+      en: "Use {p}uptime to display bot's uptime and user stats."
+    }
+  },
 
-module.exports.onStart = async function ({ message, event }) {
-  const start = Date.now();
+  onStart: async function ({ api, event, usersData, threadsData }) {
+    try {
+      const allUsers = await usersData.getAll();
+      const allThreads = await threadsData.getAll();
+      const uptime = process.uptime();
 
-  const totalSeconds = Math.floor(process.uptime());
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
+      const days = Math.floor(uptime / (60 * 60 * 24));
+      const hours = Math.floor((uptime % (60 * 60 * 24)) / 3600);
+      const minutes = Math.floor((uptime % 3600) / 60);
 
-  let uptime = "";
-  if (days > 0) uptime += `${days}d `;
-  if (hours > 0 || days > 0) uptime += `${hours}h `;
-  if (minutes > 0 || hours > 0 || days > 0) uptime += `${minutes}m `;
-  uptime += `${seconds}s`;
+      const uptimeString = `${days}D ${hours}H ${minutes}M`;
 
-  const ping = Date.now() - start;
+      const msg = 
+`╭─🎀 𝙔𝙊𝙐𝙍 𝘽𝙊𝙏 𝙐𝙋𝙏𝙄𝙈𝙀
+│
+├🐤 𝗨𝗽𝘁𝗶𝗺𝗲: ${uptimeString}  
+├👥 𝗧𝗼𝘁𝗮𝗹 𝗨𝘀𝗲𝗿𝘀: ${allUsers.length.toLocaleString()}  
+├💬 𝗧𝗼𝘁𝗮𝗹 𝗚𝗿𝗼𝘂𝗽𝘀: ${allThreads.length.toLocaleString()}  
+│
+╰───────────────◉`;
 
-  const text =
-    `╔══════════════════╗\n` +
-    `   𝐆𝐎𝐀𝐓 𝐁𝐎𝐓 𝐒𝐘𝐒𝐓𝐄𝐌 \n` +
-    `╚══════════════════╝\n` +
-    `  │\n` +
-    `  ├─ ᴜᴘᴛɪᴍᴇ: ${uptime} ⏳\n` +
-    `  ├─ ʟᴀᴛᴇɴᴄʏ: ${ping}ᴍꜱ ⚡\n` +
-    `  ├─ ᴘʟᴀᴛꜰᴏʀᴍ: ʟɪɴᴜx 🌐\n` +
-    `  ├─ ᴠᴇʀsɪᴏɴ: ᴠ1.0.0 🤖\n` +
-    `  ├─ ꜱᴛᴀᴛᴜs: ᴀᴄᴛɪᴠᴇ 🟢\n` +
-    `  └─ ᴘʀɪᴠᴀᴄʏ: ꜱᴇᴄᴜʀᴇᴅ 🔒`;
-
-  return message.reply(text);
+      api.sendMessage(msg, event.threadID, event.messageID);
+    } catch (error) {
+      console.error(error);
+      api.sendMessage("An error occurred while retrieving uptime or user data.", event.threadID, event.messageID);
+    }
+  }
 };

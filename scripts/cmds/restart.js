@@ -1,28 +1,45 @@
-const SABBIR = "Ariful Islam Sabbir";
-module.exports.config = {
-  name: "restart",
-  version: "1.1.0",
-  hasPermssion: 2,
-  credits: "Ariful Islam Sabbir",
-  description: "Restart the bot",
-  usePrefix: true,
-  category: "Admin",
-  usages: "restart",
-  cooldowns: 5
-};
+const fs = require("fs-extra");
 
-module.exports.onStart = async function ({ api, event }) {
-  const { senderID, threadID, messageID } = event;
-  const lang = global.getText("commands", "restart");
-  const adminList = (global.GoatBot?.config?.adminBot || global.GoatBot?.config?.adminID || []).map(String);
+module.exports = {
+	config: {
+		name: "restart",
+		version: "1.1",
+		author: "NTKhang",
+		countDown: 5,
+		role: 2,
+		description: {
+			vi: "Khởi động lại bot",
+			en: "Restart bot"
+		},
+		category: "Owner",
+		guide: {
+			vi: "   {pn}: Khởi động lại bot",
+			en: "   {pn}: Restart bot"
+		}
+	},
 
-  if (!adminList.includes(String(senderID))) {
-    return api.sendMessage(lang.noPermission, threadID, messageID);
-  }
+	langs: {
+		vi: {
+			restartting: "🔄 | Đang khởi động lại bot..."
+		},
+		en: {
+			restartting: "🔄 | Restarting bot..."
+		}
+	},
 
-  await api.sendMessage(lang.restarting, threadID, messageID);
+	onLoad: function ({ api }) {
+		const pathFile = `${__dirname}/tmp/restart.txt`;
+		if (fs.existsSync(pathFile)) {
+			const [tid, time] = fs.readFileSync(pathFile, "utf-8").split(" ");
+			api.sendMessage(`✅ | Bot restarted\n⏰ | Time: ${(Date.now() - time) / 1000}s`, tid);
+			fs.unlinkSync(pathFile);
+		}
+	},
 
-  setTimeout(() => {
-    process.exit(2);
-  }, 2000);
+	onStart: async function ({ message, event, getLang }) {
+		const pathFile = `${__dirname}/tmp/restart.txt`;
+		fs.writeFileSync(pathFile, `${event.threadID} ${Date.now()}`);
+		await message.reply(getLang("restartting"));
+		process.exit(2);
+	}
 };

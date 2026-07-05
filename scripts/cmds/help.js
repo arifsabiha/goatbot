@@ -1,202 +1,134 @@
-const SABBIR = "Ariful Islam Sabbir";
+const { getPrefix } = global.utils;
+const { commands, aliases } = global.GoatBot;
 
-module.exports.config = {
-  name: "help",
-  version: "5.0.0",
-  hasPermssion: 0,
-  credits: SABBIR,
-  description: "Show all commands — reply to navigate next/prev pages",
-  usePrefix: true,
-  category: "Info",
-  usages: "help [page | command name]",
-  cooldowns: 5
+module.exports = {
+        config: {
+                name: "help",
+                version: "1.7",
+                author: "MahMUD",
+                countDown: 5,
+                role: 0,
+                shortDescription: {
+                        en: "View command usage and list all commands",
+                        bn: "কমান্ড ব্যবহারের নিয়ম এবং তালিকা দেখুন",
+                        vi: "Xem cách sử dụng và danh sách lệnh"
+                },
+                longDescription: {
+                        en: "View command usage and list all commands directly",
+                        bn: "কমান্ড ব্যবহারের নিয়ম এবং তালিকা দেখুন",
+                        vi: "Xem cách sử dụng và danh sách lệnh"
+                },
+                category: "info",
+                guide: {
+                        en: "{pn} [command name]",
+                        bn: "{pn} [কমান্ডের নাম]",
+                        vi: "{pn} [tên lệnh]"
+                },
+                priority: 1,
+        },
+
+        onStart: async function ({ message, args, event, threadsData, role }) {
+                const { threadID } = event;
+                const threadData = await threadsData.get(threadID);
+                const prefix = getPrefix(threadID);
+                const langCode = threadData.data.lang || global.GoatBot.config.language || "en";
+
+                if (args.length === 0) {
+                        const categories = {};
+                        let msg = "";
+
+                        for (const [name, value] of commands) {
+                                if (value.config.role > 0 && role < value.config.role) continue;
+                                
+                                const category = value.config.category || "Uncategorized";
+                                categories[category] = categories[category] || { commands: [] };
+                                if (!categories[category].commands.includes(name)) {
+                                        categories[category].commands.push(name);
+                                }
+                        }
+
+                        Object.keys(categories).sort().forEach((category) => {
+                                msg += `\n╭─────⭓ ${category.toUpperCase()}`;
+                                const names = categories[category].commands.sort();
+                                for (let i = 0; i < names.length; i += 3) {
+                                        const cmds = names.slice(i, i + 3).map((item) => `✧${item}`);
+                                        msg += `\n│ ${cmds.join("  ")}`;
+                                }
+                                msg += `\n╰────────────⭓\n`;
+                        });
+
+                        const totalCommands = commands.size;
+                        let helpHint = langCode === "bn" ? `বিস্তারিত দেখতে ${prefix}help <কমান্ড> লিখুন।` : 
+                                       langCode === "vi" ? `Nhập ${prefix}help <lệnh> để xem chi tiết.` : 
+                                       `Type ${prefix}help <cmd> to see details.`;
+
+                        msg += `\n\n⭔ Total Commands: ${totalCommands}\n⭔ ${helpHint}\n`;
+                        msg += `\n╭─✦ ADMIN: MahMUD 彡\n├‣ WHATSAPP\n╰‣ 01836298139`;
+
+                        try {
+                                const hh = await message.reply({ body: msg });
+                                setTimeout(() => message.unsend(hh.messageID), 80000);
+                        } catch (error) {
+                                console.error("Help Error:", error);
+                        }
+
+                } else {
+                        const commandName = args[0].toLowerCase();
+                        const command = commands.get(commandName) || commands.get(aliases.get(commandName));
+
+                        if (!command) {
+                                const notFound = langCode === "bn" ? `❌ | বেবি, "${commandName}" নামে কোনো কমান্ড নেই!` : 
+                                                 langCode === "vi" ? `❌ | Không tìm thấy lệnh "${commandName}".` : 
+                                                 `❌ | Command "${commandName}" not found.`;
+                                return message.reply(notFound);
+                        }
+
+                        const config = command.config;
+                        const roleText = roleTextToString(config.role, langCode);
+
+                        const labels = {
+                                bn: { name: "নাম", alias: "ডাকনাম", info: "তথ্য", desc: "বর্ণনা", author: "লেখক", guide: "নির্দেশনা", usage: "ভার্সন ও পারমিশন", ver: "ভার্সন", role: "অনুমতি", none: "নেই", unknown: "অজানা" },
+                                vi: { name: "Tên", alias: "Tên khác", info: "Thông tin", desc: "Mô tả", author: "Tác giả", guide: "Hướng dẫn", usage: "Phiên bản & Quyền", ver: "Phiên bản", role: "Quyền hạn", none: "Không có", unknown: "Không xác định" },
+                                en: { name: "NAME", alias: "Aliases", info: "INFO", desc: "Description", author: "Author", guide: "Guide", usage: "Details", ver: "Version", role: "Role", none: "None", unknown: "Unknown" }
+                        };
+
+                        const lb = labels[langCode] || labels.en;
+                        const desc = config.description?.[langCode] || config.description?.en || config.longDescription?.[langCode] || config.longDescription?.en || "No description";
+                        const guideBody = config.guide?.[langCode] || config.guide?.en || "";
+                        
+                        const usage = guideBody
+                                .replace(/{pn}/g, prefix + config.name)
+                                .replace(/{p}/g, prefix)
+                                .replace(/{n}/g, config.name);
+
+                        const response = `╭─────────⭓\n` +
+                                         `│ 🎀 ${lb.name}: ${config.name}\n` +
+                                         `│ 📃 ${lb.alias}: ${config.aliases ? config.aliases.join(", ") : lb.none}\n` +
+                                         `├──‣ ${lb.info}\n` +
+                                         `│ 📝 ${lb.desc}: ${desc}\n` +
+                                         `│ 👑 ${lb.author}: ${config.author || lb.unknown}\n` +
+                                         `│ 📚 ${lb.guide}: ${usage || prefix + config.name}\n` +
+                                         `├──‣ ${lb.usage}\n` +
+                                         `│ ⭐ ${lb.ver}: ${config.version || "1.0"}\n` +
+                                         `│ ♻️ ${lb.role}: ${roleText}\n` +
+                                         `╰────────────⭓`;
+
+                        const helpMessage = await message.reply(response);
+                        setTimeout(() => message.unsend(helpMessage.messageID), 80000);
+                }
+        }
 };
 
-const SABBIR_PER_PAGE = 10;
+function roleTextToString(role, lang) {
+        const roles = {
+                bn: ["সব ইউজার", "গ্রুপ অ্যাডমিন", "বোট অ্যাডমিন", "ডেভেলপার (Dev)", "ভিআইপি (VIP)", "NSFW ইউজার"],
+                en: ["All users", "Group Admin", "Bot Admin", "Developer", "VIP User", "NSFW User"],
+                vi: ["Tất cả người dùng", "Quản trị viên nhóm", "Admin bot", "Người phát triển", "Người dùng VIP", "Người dùng NSFW"]
+        };
 
-function buildPage(cmdList, page, totalPages, prefix) {
-  const start = (page - 1) * SABBIR_PER_PAGE;
-  const slice = cmdList.slice(start, start + SABBIR_PER_PAGE);
-
-  const lines = [];
-  lines.push("╔══✨ SABBiR CHAT BOT ✨══╗");
-  lines.push(`👑 Owner: ${SABBIR}`);
-  lines.push(`📄 Page ${page} / ${totalPages}  •  📦 Total ${cmdList.length}`);
-  lines.push("──────────────────────");
-  for (let i = 0; i < slice.length; i++) {
-    lines.push(`  ${start + i + 1}. ${prefix}${slice[i]}`);
-  }
-  lines.push("──────────────────────");
-
-  const navParts = [];
-  if (page > 1) navParts.push(`⬅ "prev"`);
-  if (page < totalPages) navParts.push(`"next" ➡`);
-  if (navParts.length > 0) {
-    lines.push(`📌 Reply: ${navParts.join("   |   ")}`);
-    lines.push(`   (or reply with a page number)`);
-  } else {
-    lines.push(`📌 You are on the last page`);
-  }
-  lines.push(`💡 ${prefix}help <command> — details`);
-  lines.push("╚══════════════════════╝");
-
-  return lines.join("\n");
+        const r = roles[lang] || roles.en;
+        if (role >= 0 && role <= 5) {
+                return `${role} (${r[role]})`;
+        }
+        return `${role} (Unknown)`;
 }
-
-function getCmdList() {
-  const commands = global.GoatBot.commands;
-  const cmdList = [];
-  for (const [, cmd] of commands) {
-    const c = cmd && cmd.config;
-    if (!c || !c.name || c.hidden) continue;
-    cmdList.push(c.name);
-  }
-  cmdList.sort();
-  return cmdList;
-}
-
-function sendOnce(api, threadID, body, replyToMessageID) {
-  return new Promise((resolve, reject) => {
-    const cb = (err, info) => err ? reject(err) : resolve(info);
-    if (replyToMessageID) {
-      api.sendMessage({ body }, threadID, cb, replyToMessageID);
-    } else {
-      api.sendMessage({ body }, threadID, cb);
-    }
-  });
-}
-
-async function editOnce(api, messageID, body) {
-  if (typeof api.editMessage !== "function") return false;
-  try {
-    await api.editMessage(messageID, body);
-    return true;
-  } catch (_) {
-    return false;
-  }
-}
-
-function registerReplyNav(messageID, payload) {
-  global.GoatBot.onReply.set(messageID, {
-    commandName: "help",
-    messageID,
-    ...payload
-  });
-}
-
-module.exports.onStart = async function ({ api, event, message, args }) {
-  const prefix = (global.GoatBot && global.GoatBot.config && global.GoatBot.config.prefix) || "/";
-  const cmdList = getCmdList();
-  const totalPages = Math.max(1, Math.ceil(cmdList.length / SABBIR_PER_PAGE));
-
-  if (args[0]) {
-    const pageNum = parseInt(args[0]);
-    if (!isNaN(pageNum)) {
-      const page = Math.max(1, Math.min(pageNum, totalPages));
-      const body = buildPage(cmdList, page, totalPages, prefix);
-      const sent = await sendOnce(api, event.threadID, body, event.messageID).catch(() => null);
-      if (sent && sent.messageID && totalPages > 1) {
-        registerReplyNav(sent.messageID, {
-          author: String(event.senderID),
-          currentPage: page,
-          cmdList,
-          totalPages,
-          prefix
-        });
-      }
-      return;
-    }
-
-    const cmdName = args[0].toLowerCase();
-    const cmd = global.GoatBot.commands.get(cmdName);
-    if (!cmd) {
-      return message.reply(
-        `❌ No command found with name "${cmdName}".\n📋 See all commands: ${prefix}help`
-      );
-    }
-    const c = cmd.config;
-    const detail = [
-      `╔══✨ COMMAND INFO ✨══╗`,
-      `📌 Command: ${prefix}${c.name}`,
-      `📝 Description: ${c.description || c.shortDescription || "N/A"}`,
-      `🔧 Usage: ${prefix}${c.usages || c.name}`,
-      `📂 Category: ${c.category || "General"}`,
-      `⏱ Cooldown: ${c.cooldowns || c.countDown || 0}s`,
-      `👑 Credits: ${c.credits || SABBIR}`,
-      `╚══════════════════════╝`
-    ].join("\n");
-    await sendOnce(api, event.threadID, detail, event.messageID).catch(() => null);
-    return;
-  }
-
-  const body = buildPage(cmdList, 1, totalPages, prefix);
-  const sent = await sendOnce(api, event.threadID, body, event.messageID).catch(() => null);
-
-  if (sent && sent.messageID && totalPages > 1) {
-    registerReplyNav(sent.messageID, {
-      author: String(event.senderID),
-      currentPage: 1,
-      cmdList,
-      totalPages,
-      prefix
-    });
-  }
-};
-
-module.exports.onReply = async function ({ api, event, Reply }) {
-  const userID = String(event.senderID || event.userID || "");
-  if (Reply.author && userID !== String(Reply.author)) return;
-
-  const raw = (event.body || "").trim().toLowerCase();
-  if (!raw) return;
-
-  const { currentPage, cmdList, totalPages, prefix, messageID } = Reply;
-
-  let nextPage = currentPage;
-  if (raw === "next" || raw === "n" || raw === "→" || raw === "->" || raw === ">>") {
-    nextPage = currentPage + 1;
-    if (nextPage > totalPages) nextPage = 1;
-  } else if (raw === "prev" || raw === "previous" || raw === "p" || raw === "back" || raw === "b" || raw === "←" || raw === "<-" || raw === "<<") {
-    nextPage = currentPage - 1;
-    if (nextPage < 1) nextPage = totalPages;
-  } else {
-    const num = parseInt(raw);
-    if (!isNaN(num) && num >= 1 && num <= totalPages) {
-      nextPage = num;
-    } else {
-      return;
-    }
-  }
-
-  if (nextPage === currentPage) return;
-
-  const body = buildPage(cmdList, nextPage, totalPages, prefix);
-  const ok = await editOnce(api, messageID, body);
-
-  if (!ok) {
-    const sent = await sendOnce(api, event.threadID, body, event.messageID).catch(() => null);
-    if (sent && sent.messageID) {
-      registerReplyNav(sent.messageID, {
-        author: Reply.author,
-        currentPage: nextPage,
-        cmdList,
-        totalPages,
-        prefix
-      });
-    }
-  } else {
-    registerReplyNav(messageID, {
-      author: Reply.author,
-      currentPage: nextPage,
-      cmdList,
-      totalPages,
-      prefix
-    });
-  }
-
-  try {
-    if (typeof api.unsendMessage === "function" && event.messageID) {
-      await api.unsendMessage(event.messageID).catch(() => {});
-    }
-  } catch (_) {}
-};

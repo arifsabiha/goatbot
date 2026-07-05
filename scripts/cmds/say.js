@@ -1,40 +1,80 @@
-"use strict";
-
-const SABBIR = "Ariful Islam Sabbir";
 const axios = require("axios");
 
-module.exports.config = {
-  name: "say",
-  version: "1.0.0",
-  role: 0,
-  credits: "Ariful Islam Sabbir",
-  usePrefix: true,
-  category: "Fun",
-  countDown: 5,
-  shortDescription: "Convert text to voice audio",
-  usages: "say [text]"
+const baseApiUrl = async () => {
+        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        return base.data.mahmud;
 };
 
-module.exports.onStart = async function ({ message, args }) {
-  const text = args.join(" ").trim();
+module.exports = {
+        config: {
+                name: "say",
+                version: "1.7",
+                author: "MahMUD",
+                countDown: 5,
+                role: 0,
+                description: {
+                        bn: "যেকোনো লেখাকে অডিও বা ভয়েস মেসেজে রূপান্তর করুন",
+                        en: "Convert any text into an audio or voice message",
+                        vi: "Chuyển đổi bất kỳ văn bản nào thành tin nhắn âm thanh hoặc giọng nói"
+                },
+                category: "media",
+                guide: {
+                        bn: '   {pn} <লেখা>: (অথবা কোনো মেসেজে রিপ্লাই দিন)',
+                        en: '   {pn} <text>: (or reply to a message)',
+                        vi: '   {pn} <văn bản>: (hoặc trả lời tin nhắn)'
+                }
+        },
 
-  if (!text) {
-    return message.reply("📝 Usage: /say [text]\nExample: /say hello how are you");
-  }
+        langs: {
+                bn: {
+                        noInput: "× বেবি, কিছু তো লেখো অথবা মেসেজে রিপ্লাই দাও",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                },
+                en: {
+                        noInput: "× Baby, please write something or reply to a message",
+                        error: "× API error: %1. Contact MahMUD for help."
+                },
+                vi: {
+                        noInput: "× Cưng ơi, hãy viết gì đó hoặc phản hồi tin nhắn",
+                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                }
+        },
 
-  try {
-    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=gtx&tl=bn&q=${encodeURIComponent(text)}`;
+        onStart: async function ({ api, event, args, message, getLang }) {
+                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
+                if (this.config.author !== authorName) {
+                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+                }
 
-    const res = await axios.get(ttsUrl, {
-      responseType: "stream",
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-      },
-      timeout: 15000
-    });
+                let text = args.join(" ");
+                if (event.type === "message_reply" && event.messageReply.body) {
+                        text = event.messageReply.body;
+                }
 
-    return message.reply({ attachment: res.data });
-  } catch (e) {
-    return message.reply("⚠️ Failed to generate voice, please try again.");
-  }
+                if (!text) return message.reply(getLang("noInput"));
+
+                try {
+                        api.setMessageReaction("⏳", event.messageID, () => {}, true);
+
+                        const baseUrl = await baseApiUrl();
+                        const response = await axios.get(`${baseUrl}/api/say`, {
+                                params: { text },
+                                headers: { "Author": authorName },
+                                responseType: "stream"
+                        });
+
+                        return message.reply({
+                                body: "",
+                                attachment: response.data
+                        }, () => {
+                                api.setMessageReaction("🪽", event.messageID, () => {}, true);
+                        });
+
+                } catch (err) {
+                        console.error("Say Error:", err);
+                        api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        const errorMsg = err.response?.data?.error || err.message;
+                        return message.reply(getLang("error", errorMsg));
+                }
+        }
 };
