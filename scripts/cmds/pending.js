@@ -3,7 +3,7 @@ module.exports = {
                 name: "pending",
                 aliases: ["pen", "approve", "পেন্ডিং"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 10,
                 role: 0,
                 description: {
@@ -50,9 +50,6 @@ module.exports = {
         },
 
         onReply: async function ({ api, event, Reply, usersData, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) return;
-
                 const { author, pending } = Reply;
                 if (String(event.senderID) !== String(author)) return;
 
@@ -82,9 +79,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, getLang, message }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) return;
-
                 try {
                         api.setMessageReaction("⏳", event.messageID, () => {}, true);
                         const spam = await api.getThreadList(100, null, ["OTHER"]) || [];

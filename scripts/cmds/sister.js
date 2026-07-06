@@ -12,7 +12,7 @@ module.exports = {
                 name: "sister",
                 aliases: ["sis", "বোন"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 5,
                 role: 0,
                 description: {
@@ -50,11 +50,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, args, message, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 const mention = Object.keys(event.mentions)[0] || (event.messageReply && event.messageReply.senderID);
                 if (!mention) return message.reply(getLang("noTarget"));
 

@@ -12,7 +12,7 @@ module.exports = {
                 name: "anime",
                 aliases: ["anivid", "animevideo"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 10,
                 role: 0,
                 description: {
@@ -56,11 +56,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, message, args, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 const cacheDir = path.join(__dirname, "cache");
                 const filePath = path.join(cacheDir, `anime_${Date.now()}.mp4`);
                 if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);

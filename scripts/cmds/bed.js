@@ -11,7 +11,7 @@ module.exports = {
         config: {
                 name: "bed",
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 5,
                 role: 0,
                 description: {
@@ -46,10 +46,7 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, message, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author.trim() !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
+
 
                 const mentions = Object.keys(event.mentions);
                 if (mentions.length === 0) return message.reply(getLang("noMention"));

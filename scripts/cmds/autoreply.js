@@ -45,7 +45,7 @@ module.exports = {
       "hinata"
     ],
     version: "1.0.0",
-    author: "Sabbir",
+    author: "SABBIR",
     role: 0,
     countDown: 0,
     shortDescription: "AI Chat",

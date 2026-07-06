@@ -2,7 +2,7 @@ module.exports = {
         config: {
                 name: "fork",
                 version: "2.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 5,
                 role: 0,
                 description: {
@@ -19,11 +19,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, message, event }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 const githubLink = "https://github.com/mahmudx7/Hinata-Bot-v3";
                 const youtubeLink = "https://youtu.be/zJsemXLaRbY?si=8O-O-nSXgQlsNvnU";
 

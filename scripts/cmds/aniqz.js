@@ -10,7 +10,7 @@ module.exports = {
                 name: "animequiz",
                 aliases: ["aniqz"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 10,
                 role: 0,
                 description: {
@@ -51,10 +51,7 @@ module.exports = {
         },
 
         onReply: async function ({ api, event, Reply, usersData, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-                if (module.exports.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
+
 
                 const { aniqzNames, author } = Reply;
                 const getCoin = 1000;
@@ -85,9 +82,6 @@ module.exports = {
 
         onStart: async function ({ api, event, getLang }) {
                 try {
-                        const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-                        if (this.config.author !== authorName) return;
-
                         const apiUrl = await baseApiUrl();
                         if (!apiUrl) return api.sendMessage("❌ API URL not found!", event.threadID);
 

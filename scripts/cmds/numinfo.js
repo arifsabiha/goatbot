@@ -10,7 +10,7 @@ module.exports = {
                 name: "numinfo",
                 aliases: ["numberinfo", "numlookup"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 role: 0,
                 category: "info",
                 cooldown: 10,
@@ -43,11 +43,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, args, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 const { threadID, messageID } = event;
                 if (!args[0]) return api.sendMessage(getLang("noNumber").replace("{pn}", this.config.name), threadID, messageID);
 

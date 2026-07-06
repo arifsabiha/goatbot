@@ -2,7 +2,7 @@ module.exports = {
   config: {
     name: "botset",
     version: "5.0.0",
-    author: "Ariful Islam Sabbir",
+    author: "SABBIR",
     countDown: 5,
     role: 2,
     description: "Update Bot PP and Bio using custom FCA",

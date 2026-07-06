@@ -17,7 +17,7 @@ module.exports = {
     name: "goku",
     version: "1.7",
     role: 0,
-    author: "MahMUD",
+    author: "SABBIR",
     category: "anime",
     guide: {
       en: "Use {pn} to get a random anime goku video."

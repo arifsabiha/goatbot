@@ -24,7 +24,7 @@ module.exports.config = {
     name: "baby",
     aliases: ["bby", "bbu", "jan", "janu", "wifey", "bot", "hinata", "hina"],
     version: "1.7",
-    author: "MahMUD",
+    author: "SABBIR",
     countDown: 0,
     role: 0,
     description: "better then all sim simi & most fastest",
@@ -35,10 +35,7 @@ module.exports.config = {
 };
 
 module.exports.onStart = async ({ api, event, args, usersData }) => {
-    const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68);
-    if (module.exports.config.author !== obfuscatedAuthor) {
-        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-    }
+
     
     const msg = args.join(" ").toLowerCase();
     const uid = event.senderID;

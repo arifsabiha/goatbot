@@ -12,7 +12,7 @@ module.exports = {
                 name: "removebg",
                 aliases: ["rmbg", "rbg"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 10,
                 role: 0,
                 category: "tools",
@@ -42,11 +42,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, message, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 const { threadID, messageID, type, messageReply } = event;
 
                 if (type !== "message_reply" || !messageReply.attachments || messageReply.attachments[0].type !== "photo") {

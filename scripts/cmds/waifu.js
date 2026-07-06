@@ -10,7 +10,7 @@ module.exports = {
                 name: "waifu",
                 aliases: ["waifugame"],
                 version: "1.8",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 10,
                 role: 0,
                 description: {
@@ -51,11 +51,6 @@ module.exports = {
         },
 
         onReply: async function ({ api, event, Reply, usersData, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 const { waifu, author, messageID } = Reply;
                 const { senderID, threadID, body, messageID: replyMsgID } = event;
 
@@ -85,9 +80,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-                if (this.config.author !== authorName) return;
-
                 try {
                         const apiUrl = await baseApiUrl();
                         if (!apiUrl) throw new Error("API URL not found");

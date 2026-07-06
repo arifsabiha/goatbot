@@ -5,7 +5,7 @@ module.exports = {
                 name: "accept",
                 aliases: ["acp"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 5,
                 role: 0,
                 description: {
@@ -49,9 +49,6 @@ module.exports = {
         },
 
         onReply: async function ({ message, Reply, event, api, commandName, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) return;
-                
                 const { author, listRequest } = Reply;
                 if (author !== event.senderID) return;
 
@@ -109,9 +106,6 @@ module.exports = {
         },
 
         onStart: async function ({ event, api, commandName, getLang, message }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) return;
-
                 const form = {
                         av: api.getCurrentUserID(),
                         fb_api_req_friendly_name: "FriendingCometFriendRequestsRootQueryRelayPreloader",

@@ -10,7 +10,7 @@ module.exports = {
                 name: "emojimix",
                 aliases: ["mix", "ইমোজি"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 5,
                 role: 0,
                 description: {
@@ -45,11 +45,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, message, event, args, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 const prefix = global.utils.getPrefix(event.threadID);
                 const [emoji1, emoji2] = args;
 

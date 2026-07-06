@@ -3,7 +3,7 @@
     name: "uptime",
     aliases: ["upt"],
     version: "1.7",
-    author: "MahMUD",
+    author: "SABBIR",
     role: 0,
     category: "general",
     guide: {

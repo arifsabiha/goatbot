@@ -5,7 +5,7 @@ module.exports = {
         config: {
                 name: "help",
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 5,
                 role: 0,
                 shortDescription: {
@@ -87,9 +87,9 @@ module.exports = {
                         const roleText = roleTextToString(config.role, langCode);
 
                         const labels = {
-                                bn: { name: "নাম", alias: "ডাকনাম", info: "তথ্য", desc: "বর্ণনা", author: "লেখক", guide: "নির্দেশনা", usage: "ভার্সন ও পারমিশন", ver: "ভার্সন", role: "অনুমতি", none: "নেই", unknown: "অজানা" },
-                                vi: { name: "Tên", alias: "Tên khác", info: "Thông tin", desc: "Mô tả", author: "Tác giả", guide: "Hướng dẫn", usage: "Phiên bản & Quyền", ver: "Phiên bản", role: "Quyền hạn", none: "Không có", unknown: "Không xác định" },
-                                en: { name: "NAME", alias: "Aliases", info: "INFO", desc: "Description", author: "Author", guide: "Guide", usage: "Details", ver: "Version", role: "Role", none: "None", unknown: "Unknown" }
+                                bn: { name: "নাম", alias: "ডাকনাম", info: "তথ্য", desc: "বর্ণনা", author: "SABBIR", guide: "নির্দেশনা", usage: "ভার্সন ও পারমিশন", ver: "ভার্সন", role: "অনুমতি", none: "নেই", unknown: "অজানা" },
+                                vi: { name: "Tên", alias: "Tên khác", info: "Thông tin", desc: "Mô tả", author: "SABBIR", guide: "Hướng dẫn", usage: "Phiên bản & Quyền", ver: "Phiên bản", role: "Quyền hạn", none: "Không có", unknown: "Không xác định" },
+                                en: { name: "NAME", alias: "Aliases", info: "INFO", desc: "Description", author: "SABBIR", guide: "Guide", usage: "Details", ver: "Version", role: "Role", none: "None", unknown: "Unknown" }
                         };
 
                         const lb = labels[langCode] || labels.en;

@@ -7,7 +7,7 @@ module.exports = {
 	config: {
 		name: "update",
 		version: "1.7",
-		author: "MahMUD",
+		author: "SABBIR",
 		role: 2,
 		description: {
 			en: "Check for and install updates for the chatbot.",

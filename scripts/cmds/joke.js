@@ -10,7 +10,7 @@ module.exports = {
     name: "joke",
     aliases: ["jokes"],
     version: "1.7",
-    author: "MahMUD",
+    author: "SABBIR",
     countDown: 5,
     role: 0,
     category: "fun",
@@ -26,14 +26,7 @@ module.exports = {
   },
 
   onStart: async function ({ message, api, event }) {
-    const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-    if (module.exports.config.author !== obfuscatedAuthor) {
-      return api.sendMessage(
-        "You are not authorized to change the author name.\n",
-        event.threadID,
-        event.messageID
-      );
-    }
+
 
     try {
       const apiUrl = `${await mahmud()}/api/joke`;

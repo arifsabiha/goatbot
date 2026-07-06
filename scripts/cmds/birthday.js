@@ -16,7 +16,7 @@ module.exports = {
     aliases: ["wish"],
     version: "1.7",
     role: 0,
-    author: "MahMUD",
+    author: "SABBIR",
     category: "love",
     countDown: 5,
     guide: { en: "{p}{n} @mention" },

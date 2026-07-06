@@ -11,7 +11,7 @@ module.exports = {
         config: {
                 name: "tuntun",
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 role: 0,
                 category: "fun",
                 cooldown: 10,
@@ -41,11 +41,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, args, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 const { threadID, messageID, messageReply, mentions } = event;
                 let id2 = messageReply?.senderID || Object.keys(mentions)[0] || args[0];
 

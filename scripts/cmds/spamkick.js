@@ -5,7 +5,7 @@ module.exports = {
                 name: "spamkick",
                 aliases: ["antispam"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 5,
                 role: 0,
                 description: {
@@ -46,9 +46,6 @@ module.exports = {
         },
 
         onChat: async function ({ api, event, usersData, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) return;
-
                 const { senderID, threadID, messageID } = event;
                 if (!global.antispam) global.antispam = new Map();
                 if (!global.antispam.has(threadID)) return;
@@ -78,11 +75,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, args, message, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 if (!global.antispam) global.antispam = new Map();
                 const { threadID, messageID } = event;
 

@@ -9,7 +9,7 @@ module.exports = {
   config: {
     name: "time",
     version: "1.7",
-    author: "MahMUD",
+    author: "SABBIR",
     countDown: 2,
     role: 0,
     category: "utility",

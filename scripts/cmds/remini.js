@@ -9,7 +9,7 @@ module.exports = {
         config: {
                 name: "remini",
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 10,
                 role: 0,
                 description: {
@@ -47,11 +47,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, message, args, event, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 let imgUrl;
                 if (event.messageReply?.attachments?.[0]?.type === "photo") {
                         imgUrl = event.messageReply.attachments[0].url;

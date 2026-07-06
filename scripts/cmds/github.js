@@ -10,7 +10,7 @@ module.exports = {
                 name: "github",
                 aliases: ["git"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 10,
                 description: {
                         bn: "গিটহাব ইউজারের তথ্য দেখুন",
@@ -140,11 +140,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, args, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 const username = args[0];
                 if (!username) return api.sendMessage(getLang("noInput"), event.threadID, event.messageID);
 

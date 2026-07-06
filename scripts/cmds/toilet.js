@@ -18,7 +18,7 @@ module.exports = {
   config: {
     name: "toilet",
     version: "1.7",
-    author: "MahMUD",
+    author: "SABBIR",
     role: 0,
     category: "fun",
     cooldown: 10,
@@ -26,14 +26,7 @@ module.exports = {
   },
 
   onStart: async function({ api, event, args }) {
-    const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68); 
-    if (module.exports.config.author !== obfuscatedAuthor) {
-      return api.sendMessage(
-        "You are not authorized to change the author name.\n", 
-        event.threadID, 
-        event.messageID
-      );
-    }
+
 
     const { senderID, mentions, threadID, messageID, messageReply } = event;
     let id;

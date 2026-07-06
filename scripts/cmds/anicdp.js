@@ -10,7 +10,7 @@ module.exports = {
                 name: "anicdp",
                 aliases: ["animecdp"],
                 version: "1.7",
-                author: "MahMUD",
+                author: "SABBIR",
                 countDown: 10,
                 role: 0,
                 description: {
@@ -48,11 +48,6 @@ module.exports = {
         },
 
         onStart: async function ({ api, event, message, getLang }) {
-                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
-                if (this.config.author !== authorName) {
-                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-                }
-
                 try {
                         api.setMessageReaction("⌛", event.messageID, () => {}, true);
 

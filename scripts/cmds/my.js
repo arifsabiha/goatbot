@@ -16,16 +16,14 @@ module.exports = {
   config: {
     name: "my",
     version: "1.7",
-    author: "MahMUD",
+    author: "SABBIR",
     category: "love",
     guide:
       "{pn} boy @tag | {pn} girl @tag | {pn} queen @tag | {pn} king @tag | {pn} bf @tag | {pn} gf @tag | {pn} list"
   },
 
   onStart: async function ({ api, usersData, event, args }) {
-    const obfuscated = String.fromCharCode(77, 97, 104, 77, 85, 68); if (module.exports.config.author !== obfuscated) {
-    return api.sendMessage("You are not authorized to change the author name.", event.threadID);
-  }
+
 
     const senderID = event.senderID;const type = (args[0] || "").toLowerCase();
     if (type === "list") {

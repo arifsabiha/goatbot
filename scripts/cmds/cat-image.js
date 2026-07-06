@@ -9,7 +9,7 @@ module.exports = {
   config: {
     name: "cat",
     version: "1.7",
-    author: "MahMUD",
+    author: "SABBIR",
     countDown: 10,
     role: 0,
     category: "image",
