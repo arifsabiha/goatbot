@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const mahmud = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -29,15 +29,15 @@ module.exports = {
         langs: {
                 bn: {
                         wait: "⌛ বেবি, একটি হাদিস সংগ্রহ করছি... একটু অপেক্ষা করো! <🖤",
-                        error: "× হাদিস সংগ্রহ করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× হাদিস সংগ্রহ করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         wait: "⌛ Baby, fetching a Hadis for you... Please wait! <🖤",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noInput: "⌛ Cưng ơi, đang lấy một câu Hadis... Chờ chút nhé! <🖤",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

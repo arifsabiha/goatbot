@@ -3,7 +3,7 @@ const axios = require("axios");
 const path = require("path");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -33,19 +33,19 @@ module.exports = {
                         noTarget: "× বেবি, একজনকে ট্যাগ করো অথবা রিপ্লাই দাও! 🎀",
                         wait: "⌛ তোমার ছবিটি তৈরি করছি... একটু অপেক্ষা করো বেবি! <😘",
                         success: "𝐋𝐢𝐟𝐞'𝐬 𝐛𝐞𝐭𝐭𝐞𝐫 𝐰𝐢𝐭𝐡 𝐚 𝐒𝐢𝐬𝐭𝐞𝐫 𝐛𝐲 𝐲𝐨𝐮𝐫 𝐬𝐢𝐝𝐞 🎀",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noTarget: "× Baby, please tag or reply to someone! 🎀",
                         wait: "⌛ Generating your image... Please wait a moment baby! <😘",
                         success: "𝐋𝐢𝐟𝐞'𝐬 𝐛𝐞𝐭𝐭𝐞𝐫 𝐰𝐢𝐭𝐡 𝐚 𝐒𝐢𝐬𝐭𝐞𝐫 𝐛𝐲 𝐲𝐨𝐮𝐫 𝐬𝐢𝐝𝐞 🎀",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noTarget: "× Cưng ơi, hãy gắn thẻ hoặc phản hồi ai đó! 🎀",
                         wait: "⌛ Đang tạo hình ảnh cho cưng... Chờ chút nhé! <😘",
                         success: "𝐂𝐮𝐨̣̂𝐜 𝐬𝐨̂́𝐧𝐠 𝐭𝐨̂́𝐭 đ𝐞̣𝐩 𝐡𝐨̛𝐧 𝐤𝐡𝐢 𝐜𝐨́ 𝐜𝐡𝐢̣ 𝐞𝐦 𝐛𝐞̂𝐧 𝐜𝐚̣𝐧𝐡 🎀",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

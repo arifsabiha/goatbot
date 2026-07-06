@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const baseApiUrl = async () => {
-        const res = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const res = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return res.data.mahmud;
 };
 
@@ -29,17 +29,17 @@ module.exports = {
                 bn: {
                         noInput: "❌ | আগে একটি ছবি / ভিডিও / অডিওতে রিপ্লাই দাও বেবি!",
                         success: "✅ | এই নাও তোমার %1 লিঙ্ক <😘\n\n",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noInput: "❌ | Reply to an image / video / audio first, baby!",
                         success: "✅ | Here is your %1 url <😘\n\n",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noInput: "❌ | Vui lòng phản hồi ảnh / video / âm thanh trước, cưng ơi!",
                         success: "✅ | Đây là liên kết %1 của bạn <😘\n\n",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

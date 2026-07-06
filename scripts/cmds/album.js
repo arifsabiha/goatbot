@@ -1,7 +1,7 @@
 const axios = require("axios"), fs = require("fs"), path = require("path");
 
 const mahmud = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -28,21 +28,21 @@ module.exports = {
         langs: {
                 bn: {
                         noInput: "× বেবি, একটি ক্যাটাগরি দাও অথবা ভিডিওতে রিপ্লাই দাও",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।",
                         invalidPage: "× ভুল পৃষ্ঠা! সর্বোচ্চ পৃষ্ঠা: %1",
                         header: "𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐀𝐥𝐛𝐮𝐦 𝐕𝐢𝐝𝐞𝐨",
                         footer: "\n♻ | পৃষ্ঠা [%1/%2]<😘\nℹ | টাইপ করুন !%3 %4 - পরবর্তী পৃষ্ঠা দেখতে।"
                 },
                 en: {
                         noInput: "× Baby, please specify a category or reply to a video",
-                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139",
+                        error: "× API error: %1. Contact SABBIR",
                         invalidPage: "× Invalid page! Max page: %1",
                         header: "𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐀𝐥𝐛𝐮𝐦 𝐕𝐢𝐝𝐞𝐨",
                         footer: "\n♻ | 𝐏𝐚𝐠𝐞 [%1/%2]<😘\nℹ | 𝐓𝐲𝐩𝐞 !%3 %4 - 𝐭𝐨 𝐬𝐞𝐞 𝐧𝐞𝐱𝐭 𝐩𝐚𝐠𝐞."
                 },
                 vi: {
                         noInput: "× Cưng ơi, vui lòng chỉ định danh mục hoặc phản hồi video",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.",
+                        error: "× Lỗi: %1. Contact SABBIR for help.",
                         invalidPage: "× Trang không hợp lệ! Trang tối đa: %1",
                         header: "𝐀𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐀𝐥𝐛𝐮𝐦 𝐕𝐢𝐝𝐞𝐨",
                         footer: "\n♻ | Trang [%1/%2]<😘\nℹ | Nhập !%3 %4 - để xem trang tiếp theo."

@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const getBaseApi = async () => {
-        const res = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const res = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return res.data.mahmud;
 };
 
@@ -27,12 +27,12 @@ module.exports = {
                 bn: {
                         noPrompt: "⚠️ বেবি, কিছু তো জিজ্ঞাসা করো! উদাহরণ: {pn} তুমি কে?",
                         noResponse: "× এআই থেকে কোনো উত্তর পাওয়া যায়নি।",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noPrompt: "⚠️ Baby, please provide a prompt! Example: {pn} Who are you?",
                         noResponse: "× No response from AI.",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 }
         },
 

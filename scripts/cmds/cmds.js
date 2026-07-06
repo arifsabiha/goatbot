@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -29,13 +29,13 @@ module.exports = {
                         notFound: "❌ | No \"%1\" commands found.",
                         notYourReply: "❌ | not your reply baby 🐸",
                         invalidSelection: "❌ | Invalid selection! Please enter a valid number.",
-                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
+                        error: "× API error: %1. Contact SABBIR"
                 },
                 vi: {
                         notFound: "❌ | Không tìm thấy lệnh \"%1\".",
                         notYourReply: "❌ | Không phải phản hồi của bạn đâu cưng 🐸",
                         invalidSelection: "❌ | Lựa chọn không hợp lệ!",
-                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
+                        error: "× API error: %1. Contact SABBIR"
                 }
         },
 

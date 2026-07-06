@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const mahmud = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -29,15 +29,15 @@ module.exports = {
         langs: {
                 bn: {
                         noImg: "× বেবি, একটি ছবিতে রিপ্লাই দিয়ে কমান্ডটি ব্যবহার করো! 🖼️",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noImg: "× Baby, please reply to an image to use this command! 🖼️",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noImg: "× Cưng ơi, vui lòng phản hồi một hình ảnh để sử dụng! 🖼️",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để được hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const path = require("path");
 
 const mahmhd = async () => {
-  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+  const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
   return base.data.mahmud;
 };
 
@@ -32,11 +32,11 @@ module.exports = {
         langs: {
                 bn: {
                         success: "✅ এই ইউজারকে সফলভাবে হ্যাক করা হয়েছে: %1",
-                        error: "× হ্যাক করতে গিয়ে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
+                        error: "× হ্যাক করতে গিয়ে সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         success: "✅ Successfully Hacked This User: %1",
-                        error: "× Failed to hack: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
+                        error: "× Failed to hack: %1. Contact SABBIR"
                 }
         },
 

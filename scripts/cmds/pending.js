@@ -27,7 +27,7 @@ module.exports = {
                         successNotify: "বট এখন কানেক্টেড! কমান্ড দেখতে !help ব্যবহার করুন। ✨",
                         approvedBy: "এই গ্রুপটি %1 দ্বারা অ্যাপ্রুভ করা হয়েছে।",
                         done: "✅ সফলভাবে %1টি গ্রুপ অ্যাপ্রুভ করা হয়েছে।",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noPending: "× No groups in pending queue! 😴",
@@ -36,7 +36,7 @@ module.exports = {
                         successNotify: "Bot is now connected! Use !help to see commands. ✨",
                         approvedBy: "This group was approved by %1.",
                         done: "✅ Successfully approved %1 group(s).",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noPending: "× Không có nhóm nào trong hàng đợi chờ xử lý! 😴",
@@ -45,7 +45,7 @@ module.exports = {
                         successNotify: "Bot hiện đã được kết nối! Sử dụng !help để xem các lệnh. ✨",
                         approvedBy: "Nhóm này đã được phê duyệt bởi %1.",
                         done: "✅ Đã phê duyệt thành công %1 nhóm.",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

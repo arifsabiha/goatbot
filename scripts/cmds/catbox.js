@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const getBase = async () => {
-        const res = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const res = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return res.data.mahmud;
 };
 
@@ -31,19 +31,19 @@ module.exports = {
                         noMedia: "🐤 | বেবি, একটি ছবি বা ভিডিওতে রিপ্লাই দাও! 🖼️",
                         uploading: "⌛ | আপলোড হচ্ছে, একটু অপেক্ষা করো বেবি... <😘",
                         success: "Successfully Uploaded ✅\n\n🔗 𝐔𝐑𝐋: %1",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noMedia: "🐤 | Baby, please reply to a media file (image/video)! 🖼️",
                         uploading: "⌛ | Uploading, please wait a moment baby... <😘",
                         success: "Successfully Uploaded ✅\n\n🔗 𝐔𝐑𝐋: %1",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noMedia: "🐤 | Cưng ơi, vui lòng phản hồi một tệp ảnh hoặc video! 🖼️",
                         uploading: "⌛ | Đang tải lên, chờ chút nhé cưng... <😘",
                         success: "Tải lên thành công ✅\n\n🔗 𝐔𝐑𝐋: %1",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

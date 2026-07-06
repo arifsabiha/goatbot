@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const mahmud = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -33,17 +33,17 @@ module.exports = {
                 bn: {
                         noList: "× কোনো ফন্ট স্টাইল খুঁজে পাওয়া যায়নি।",
                         invalid: "× ভুল ফরম্যাট! সঠিক নিয়ম: {pn} <নাম্বার> <টেক্সট>",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noList: "× No font styles found.",
                         invalid: "× Invalid usage! Format: {pn} <number> <text>",
-                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
+                        error: "× API error: %1. Contact SABBIR"
                 },
                 vi: {
                         noList: "× Không tìm thấy kiểu phông chữ nào.",
                         invalid: "× Sử dụng sai! Định dạng: {pn} <số> <văn bản>",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

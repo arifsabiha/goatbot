@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -32,21 +32,21 @@ module.exports = {
                         correct: "✅ | একদম সঠিক উত্তর বেবি!\n\nতুমি জিতেছো %1 কয়েন এবং %2 এক্সপি।",
                         wrong: "🥺 | উত্তরটি ভুল হয়েছে বেবি!\n\nসঠিক উত্তর ছিল: %1",
                         notYour: "× বেবি, এটি তোমার জন্য নয়! নিজের জন্য গেম শুরু করো। >🐸",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         start: "A random actor has appeared! Guess the name, baby.",
                         correct: "✅ | Correct answer, baby!\n\nYou have earned %1 coins and %2 exp.",
                         wrong: "🥺 | Wrong Answer, baby!\n\nThe Correct answer was: %1",
                         notYour: "× This is not your actor, baby! >🐸",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         start: "Một diễn viên đã xuất hiện! Đoán tên đi cưng.",
                         correct: "✅ | Đáp án chính xác cưng ơi!\n\n✨ Bạn nhận được %1 xu và %2 exp.",
                         wrong: "🥺 | Sai rồi cưng ơi!\n\nĐáp án đúng là: %1",
                         notYour: "× Đây không phải phần chơi của bạn cưng à! >🐸",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để được hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

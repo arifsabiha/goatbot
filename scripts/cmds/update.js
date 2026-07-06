@@ -26,7 +26,7 @@ module.exports = {
 			updatePrompt: "💫 | You are using version %1. There is a new version %2. Do you want to update the chatbot to the latest version?"
 				+ "\n\n⬆️ | The following files will be updated:"
 				+ "\n%3%4"
-				+ "\n\nℹ️ | See details at https://github.com/mahmudx7/Hinata-Bot-V3/commits/main"
+				+ "\n\nℹ️ | See details at "
 				+ "\n💡 | React to this message to confirm.",
 			fileWillDelete: "\n🗑️ | The following files/folders will be deleted:\n%1",
 			andMore: " ...and %1 more files",
@@ -41,7 +41,7 @@ module.exports = {
 			updatePrompt: "💫 | তুমি বর্তমানে %1 ভার্সন ব্যবহার করছো। নতুন ভার্সন %2 পাওয়া গেছে। বট আপডেট করতে চাও?"
 				+ "\n\n⬆️ | নিচের ফাইলগুলো আপডেট হবে:"
 				+ "\n%3%4"
-				+ "\n\nℹ️ | বিস্তারিত দেখো: https://github.com/mahmudx7/Hinata-Bot-V3/commits/main"
+				+ "\n\nℹ️ | বিস্তারিত দেখো: "
 				+ "\n💡 | কনফার্ম করতে এই মেসেজে রিয়্যাক্ট দাও।",
 			fileWillDelete: "\n🗑️ | নিচের ফাইল/ফোল্ডার ডিলিট হবে:\n%1",
 			andMore: " ...আরও %1 টি ফাইল",
@@ -61,8 +61,8 @@ module.exports = {
 	},
 
 	onStart: async function ({ message, getLang, commandName, event }) {
-		const { data: { version } } = await axios.get("https://raw.githubusercontent.com/mahmudx7/Hinata-Bot-V3/main/package.json");
-		const { data: versions } = await axios.get("https://raw.githubusercontent.com/mahmudx7/Hinata-Bot-V3/main/versions.json");
+		const { data: { version } } = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
+		const { data: versions } = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
 
 		const currentVersion = require("../../package.json").version;
 		if (compareVersion(version, currentVersion) < 1)

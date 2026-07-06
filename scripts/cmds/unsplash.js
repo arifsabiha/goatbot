@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs");
 
 const mahmud = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -33,19 +33,19 @@ module.exports = {
                         noInput: "× বেবি, সঠিক নিয়ম ব্যবহার করো! 📸\nউদাহরণ: {pn} cat - 5",
                         noResult: "× কোনো ছবি খুঁজে পাওয়া যায়নি।",
                         success: "✅ এই নাও তোমার Unsplash ছবিগুলো বেবি! <😘",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noInput: "× Baby, use the correct format! 📸\nExample: {pn} cat - 5",
                         noResult: "× No images found.",
                         success: "✅ Here are your Unsplash images baby! <😘",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noInput: "× Cưng ơi, hãy sử dụng đúng định dạng! 📸\nVí dụ: {pn} cat - 5",
                         noResult: "× Không tìm thấy hình ảnh nào.",
                         success: "✅ Ảnh Unsplash của cưng đây! <😘",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

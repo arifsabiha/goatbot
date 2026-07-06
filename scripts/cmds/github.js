@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -28,7 +28,7 @@ module.exports = {
         langs: {
                 bn: {
                         noInput: "× বেবি, একটি গিটহাব ইউজারনেম তো দাও!\n\nউদাহরণ: {pn} Mahmudx7",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD|\n•WhatsApp: 01836298139",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR",
                         info: `>🎀 ইউজার গিটহাব তথ্য
 • নাম: %1
 • ইউজারনেম: %2
@@ -65,7 +65,7 @@ module.exports = {
                 },
                 en: {
                         noInput: "× Baby, please provide a GitHub username!\n\nExample: {pn} Mahmudx7",
-                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139",
+                        error: "× API error: %1. Contact SABBIR",
                         info: `>🎀 USER GITHUB INFO
 • Name: %1
 • Username: %2
@@ -102,7 +102,7 @@ module.exports = {
                 },
                 vi: {
                         noInput: "× Cưng ơi, vui lòng cung cấp tên người dùng GitHub!\n\nVí dụ: {pn} Mahmudx7",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139",
+                        error: "× Lỗi: %1. Contact SABBIR for help.",
                         info: `>🎀 THÔNG TIN GITHUB
 • Tên: %1
 • Tên người dùng: %2

@@ -2,7 +2,7 @@ const axios = require("axios");
 const fs = require("fs");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud69;
 };
 
@@ -27,11 +27,11 @@ module.exports = {
         langs: {
                 bn: {
                         defaultCaption: "ডাউনলোড করা ভিডিও",
-                        error: "× ভিডিও ডাউনলোড করতে সমস্যা হয়েছে।\n•WhatsApp: 01836298139"
+                        error: "× ভিডিও ডাউনলোড করতে সমস্যা হয়েছে।"
                 },
                 en: {
                         defaultCaption: "Downloaded Video",
-                        error: "× Failed to download video.\n•WhatsApp: 01836298139"
+                        error: "× Failed to download video."
                 }
         },
 

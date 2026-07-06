@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -32,19 +32,19 @@ module.exports = {
                         noInput: "× বেবি, একটি কমান্ডের নাম তো বলো!",
                         notFound: "× ফাইলটি খুঁজে পাওয়া যায়নি: %1.js",
                         success: "✅ সফলভাবে আপলোড হয়েছে!\n\n• শিরোনাম: %1\n• র লিঙ্ক: %2",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD|\n•WhatsApp: 01836298139"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR"
                 },
                 en: {
                         noInput: "× Baby, please enter a command name!",
                         notFound: "× File not found: %1.js",
                         success: "✅ Upload Successful!\n\n• Title: %1\n• Raw Link: %2",
-                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
+                        error: "× API error: %1. Contact SABBIR"
                 },
                 vi: {
                         noInput: "× Cưng ơi, hãy nhập tên lệnh!",
                         notFound: "× Không tìm thấy tệp: %1.js",
                         success: "✅ Tải lên thành công!\n\n• Tiêu đề: %1\n• Liên kết thô: %2",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

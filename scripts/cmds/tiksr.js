@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const path = require("path");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -32,19 +32,19 @@ module.exports = {
                         noInput: "× বেবি, কী সার্চ করতে চাও বলো! 🔍\nউদাহরণ: {pn} naruto",
                         tooLarge: "× ভিডিওটি অনেক বড় (২৫ মেগাবাইটের বেশি)। অন্য কিছু সার্চ করো!",
                         success: "• 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐓𝐢𝐤𝐓𝐨𝐤 𝐄𝐝𝐢𝐭 𝐕𝐢𝐝𝐞𝐨.\n• 𝐒𝐞𝐚𝐫𝐜𝐡: %1",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noInput: "× Baby, what do you want to search? 🔍\nExample: {pn} naruto",
                         tooLarge: "× Video is too large (25MB+). Try another keyword!",
                         success: "• 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐓𝐢𝐤𝐓𝐨𝐤 𝐄𝐝𝐢𝐭 𝐕𝐢𝐝𝐞𝐨.\n• 𝐒𝐞𝐚𝐫𝐜𝐡: %1",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noInput: "× Cưng ơi, cưng muốn tìm kiếm gì? 🔍\nVí dụ: {pn} naruto",
                         tooLarge: "× Video quá lớn (25MB+). Hãy thử từ khóa khác!",
                         success: "• 𝐕𝐢𝐝𝐞𝐨 𝐜𝐡𝐢̉𝐧𝐡 𝐬𝐮̛̉𝐚 𝐓𝐢𝐤𝐓𝐨𝐤 𝐜𝐮̉𝐚 𝐜𝐮̛𝐧𝐠 ᵭ𝐚̂𝐲.\n• 𝐓𝐢̀𝐦 𝐤𝐢𝐞̂́𝐦: %1",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

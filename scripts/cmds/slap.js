@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const baseApiUrl = async () => {
-  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+  const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
   return base.data.mahmud;
 };
 
@@ -34,12 +34,12 @@ module.exports = {
                 bn: {
                         noTarget: "× বেবি, কাকে থাপ্পড় মারবে তাকে মেনশন দাও বা রিপ্লাই করো!",
                         success: "এই নাও থাপ্পড়! একদম গাল লাল হয়ে গেছে 💥",
-                        error: "× থাপ্পড় মারতে গিয়ে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× থাপ্পড় মারতে গিয়ে সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noTarget: "× Baby, mention or reply to someone to slap!",
                         success: "Here's a slap! 💥",
-                        error: "× Failed to slap: %1. Contact MahMUD for help."
+                        error: "× Failed to slap: %1. Contact SABBIR for help."
                 }
         },
 

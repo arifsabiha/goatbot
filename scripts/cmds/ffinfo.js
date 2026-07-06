@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const mahmud = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -29,17 +29,17 @@ module.exports = {
                 bn: {
                         noUid: "• দয়া করে একটি ফ্রি ফায়ার UID দিন।",
                         notFound: "× প্লেয়ার খুঁজে পাওয়া যায়নি!",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noUid: "• Please provide a Free Fire UID.\n\nexample: !ffinfo 404394256",
                         notFound: "× Player not found!",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noUid: "• Vui lòng cung cấp UID Free Fire.",
                         notFound: "× Không tìm thấy người chơi!",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

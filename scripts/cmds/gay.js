@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -37,17 +37,17 @@ module.exports = {
                 bn: {
                         noTarget: "× বেবি, কাউকে মেনশন দাও, রিপ্লাই করো অথবা UID দাও! 🐸",
                         success: "𝐄𝐟𝐟𝐞𝐜𝐭 𝐠𝐚𝐲 𝐬𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥 🐸",
-                        error: "× ইফেক্ট তৈরি করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× ইফেক্ট তৈরি করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noTarget: "× Baby, mention, reply, or provide UID of the target! 🐸",
                         success: "𝐄𝐟𝐟𝐞𝐜𝐭 𝐠𝐚𝐲 𝐬𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥 🐸",
-                        error: "× Failed to create effect: %1. Contact MahMUD for help."
+                        error: "× Failed to create effect: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noTarget: "× Cưng ơi, hãy gắn thẻ, phản hồi hoặc cung cấp UID mục tiêu! 🐸",
                         success: "Hiệu ứng gay thành công 🐸",
-                        error: "× Lỗi tạo hiệu ứng: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi tạo hiệu ứng: %1. Contact SABBIR for help."
                 }
         },
 

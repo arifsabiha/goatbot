@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -27,17 +27,17 @@ module.exports = {
 
         langs: {
                 bn: {
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD|\n•WhatsApp: 01836298139",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR",
                         banned: "❌ মিডিয়া ব্যানড করা হয়েছে!",
                         auth: "You are not authorized to change the author name."
                 },
                 en: {
-                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139",
+                        error: "× API error: %1. Contact SABBIR",
                         banned: "❌ Media is banned!",
                         auth: "You are not authorized to change the author name."
                 },
                 vi: {
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139",
+                        error: "× Lỗi: %1. Contact SABBIR for help.",
                         banned: "❌ Phương tiện bị cấm!",
                         auth: "You are not authorized to change the author name."
                 }

@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -28,12 +28,12 @@ module.exports = {
                 bn: {
                         notFound: "× কাপল ডিপি খুঁজে পাওয়া যায়নি। পরে চেষ্টা করো বেবি!",
                         success: "এই নাও তোমার কাপল ডিপি বেবি <😘",
-                        error: "× ডিপি আনতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× ডিপি আনতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         notFound: "× Couldn't fetch couple DP. Try again later baby!",
                         success: "Here is your cdp baby <😘",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 }
         },
 

@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const path = require("path");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -34,17 +34,17 @@ module.exports = {
         langs: {
                 bn: {
                         success: ">🎀 %1\nবেবি, এই নাও তোমার প্রোফাইল 😘",
-                        error: "× প্রোফাইল পিকচার আনতে সমস্যা হয়েছে, Contact MahMUD: %1\n•WhatsApp: 01836298139",
+                        error: "× প্রোফাইল পিকচার আনতে সমস্যা হয়েছে, Contact SABBIR: %1",
                         invalid: "! সঠিক UID বা লিংক প্রদান করুন"
                 },
                 en: {
                         success: ">🎀 %1\n𝐁𝐚𝐛𝐲, 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐩𝐫𝐨𝐟𝐢𝐥𝐞 😘",
-                        error: "× Could not fetch profile picture, Contact MahMUD: %1\n•WhatsApp: 01836298139",
+                        error: "× Could not fetch profile picture, Contact SABBIR: %1",
                         invalid: "! Invalid UID or link"
                 },
                 vi: {
                         success: ">🎀 %1\nCưng ơi, ảnh đại diện của cưng đây 😘",
-                        error: "× Không thể lấy ảnh đại diện, liên hệ MahMUD: %1\n•WhatsApp: 01836298139",
+                        error: "× Không thể lấy ảnh đại diện, liên hệ MahMUD: %1",
                         invalid: "! UID hoặc liên kết không hợp lệ"
                 }
         },

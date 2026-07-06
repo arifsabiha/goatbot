@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -34,12 +34,12 @@ module.exports = {
                 bn: {
                         noTarget: "× বেবি, কাকে ট্রিগারড বানাবে তাকে মেনশন দাও, রিপ্লাই করো অথবা UID দাও! ⚡",
                         success: "Effect trigger successful ⚡",
-                        error: "× ছবি তৈরি করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× ছবি তৈরি করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noTarget: "× Baby, mention, reply, or provide UID of the target! ⚡",
                         success: "Effect trigger successful ⚡",
-                        error: "× Failed to create image: %1. Contact MahMUD for help."
+                        error: "× Failed to create image: %1. Contact SABBIR for help."
                 }
         },
 

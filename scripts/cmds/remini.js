@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const mahmud = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -30,19 +30,19 @@ module.exports = {
                         noImage: "• বেবি, একটি ছবিতে রিপ্লাই দাও অথবা ছবির লিংক দাও! 😘",
                         wait: "𝐑𝐞𝐦𝐢𝐧𝐢 𝐢𝐦𝐚𝐠𝐞𝐬 𝐥𝐨𝐚𝐝𝐢𝐧𝐠...𝐰𝐚𝐢𝐭 𝐛𝐚𝐛𝐲 😘",
                         success: "✅ | 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐑𝐞𝐦𝐢𝐧𝐢 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noImage: "• Baby, please reply to an image or provide a link! 😘",
                         wait: "𝐑𝐞𝐦𝐢𝐧𝐢 𝐢𝐦𝐚𝐠𝐞𝐬 𝐥𝐨𝐚𝐝𝐢𝐧𝐠...𝐰𝐚𝐢𝐭 𝐛𝐚𝐛𝐲 😘",
                         success: "✅ | 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐑𝐞𝐦𝐢𝐧𝐢 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noImage: "• Cưng ơi, hãy phản hồi một bức ảnh hoặc gửi link! 😘",
                         wait: "𝐑𝐞𝐦𝐢𝐧𝐢 𝐢𝐦𝐚𝐠𝐞𝐬 𝐥𝐨𝐚𝐝𝐢𝐧𝐠...𝐰𝐚𝐢𝐭 𝐛𝐚𝐛𝐲 😘",
                         success: "✅ | 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐑𝐞𝐦𝐢𝐧𝐢 𝐢𝐦𝐚𝐠𝐞 𝐛𝐚𝐛𝐲",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để được hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

@@ -19,7 +19,7 @@ module.exports = {
         },
 
         onStart: async function ({ api, message, event }) {
-                const githubLink = "https://github.com/mahmudx7/Hinata-Bot-v3";
+                const githubLink = "";
                 const youtubeLink = "https://youtu.be/zJsemXLaRbY?si=8O-O-nSXgQlsNvnU";
 
                 const response = `✓ | Fork this project here:\n` +

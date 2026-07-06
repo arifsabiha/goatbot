@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const mahmud = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/exe/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -31,19 +31,19 @@ module.exports = {
                 bn: {
                         noInput: "× বেবি, জায়গার নাম দাও!\n\nউদাহরণ: {pn} Dhaka",
                         notFound: "× দুঃখিত, %1 খুঁজে পাওয়া যায়নি।",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।",
                         today: "আজকের আবহাওয়া: %1\n%2\n🌡 সর্বনিম্ন - সর্বোচ্চ: %3°C - %4°C\n🌡 অনুভূত হবে: %5°C - %6°C\n🌅 সূর্যোদয়: %7\n🌄 সূর্যাস্ত: %8\n🌃 চন্দ্রোদয়: %9\n🏙 চন্দ্রাস্ত: %10\n🌞 দিন: %11\n🌙 রাত: %12"
                 },
                 en: {
                         noInput: "× Baby, please enter a location\n\nExample: {pn} Dhaka",
                         notFound: "× Location not found: %1",
-                        error: "× API error: %1. Contact MahMUD for help.",
+                        error: "× API error: %1. Contact SABBIR for help.",
                         today: "Today's weather: %1\n%2\n🌡 Low - high temperature %3°C - %4°C\n🌡 Feels like %5°C - %6°C\n🌅 Sunrise %7\n🌄 Sunset %8\n🌃 Moonrise %9\n🏙 Moonset %10\n🌞 Day: %11\n🌙 Night: %12"
                 },
                 vi: {
                         noInput: "× Cưng ơi, vui lòng nhập địa điểm\n\nVí dụ: {pn} Hanoi",
                         notFound: "× Không thể tìm thấy địa điểm: %1",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.",
+                        error: "× Lỗi: %1. Contact SABBIR for help.",
                         today: "Thời tiết hôm nay: %1\n%2\n🌡 Nhiệt độ thấp nhất - cao nhất %3°C - %4°C\n🌡 Nhiệt độ cảm nhận được %5°C - %6°C\n🌅 Mặt trời mọc %7\n🌄 Mặt trời lặn %8\n🌃 Mặt trăng mọc %9\n🏙 Mặt trăng lặn %10\n🌞 Ban ngày: %11\n🌙 Ban đêm: %12"
                 }
         },

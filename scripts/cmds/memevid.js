@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const mahmud = async () => {
-  const response = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+  const response = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
   return response.data.mahmud;
 };
 

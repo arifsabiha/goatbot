@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const path = require("path");
 
 const mahmhd = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -36,14 +36,14 @@ module.exports = {
                         noReply: "× বেবি, একটি ছবিতে রিপ্লাই দিয়ে কমান্ডটি ব্যবহার করো!",
                         noText: "× ছবিতে কি লিখবো সেটা তো বলো! (যেমন: r - text)",
                         apiError: "⚠️ | রিমোট এপিআই এই মুহূর্তে বন্ধ আছে।",
-                        error: "× টেক্সট লিখতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× টেক্সট লিখতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         colorList: "🎨 Available short codes:\n%1\n\nDefault is white if not specified.",
                         noReply: "× Baby, please reply to an image first!",
                         noText: "× Please provide text to write! (Example: r - text)",
                         apiError: "⚠️ | Remote API unavailable — try again later.",
-                        error: "× Failed to write text: %1. Contact MahMUD for help."
+                        error: "× Failed to write text: %1. Contact SABBIR for help."
                 }
         },
 

@@ -23,17 +23,17 @@ module.exports = {
                 bn: {
                         reply: "বেবি তোমার ইনবক্স চেক করো 🐤",
                         inboxMsg: "হাই বেবি 😘",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         reply: "Baby, check your inbox 🐤",
                         inboxMsg: "Hi baby 😘",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         reply: "Cưng ơi, kiểm tra hộp thư đến nhé 🐤",
                         inboxMsg: "Chào cưng 😘",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

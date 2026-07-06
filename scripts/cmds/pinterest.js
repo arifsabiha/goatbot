@@ -3,7 +3,7 @@ const fs = require("fs-extra");
 const path = require("path");
 
 const mahmud = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -33,19 +33,19 @@ module.exports = {
                         noInput: "× বেবি, কী ছবি খুঁজছো? নাম ও পরিমাণ দাও! 🔍\nউদাহরণ: {pn} goku - 10",
                         noData: "× দুঃখিত, আপনার সার্চ অনুযায়ী কোনো ছবি পাওয়া যায়নি।",
                         success: "✅ | আপনার জন্য \"%1\" এর %2টি ছবি এখানে রয়েছে:",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noInput: "× Baby, please enter a search query and amount! 🔍\nExample: {pn} goku - 10",
                         noData: "× Sorry, no images found for your query.",
                         success: "✅ | Here are your %2 images for \"%1\":",
-                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
+                        error: "× API error: %1. Contact SABBIR"
                 },
                 vi: {
                         noInput: "× Cưng ơi, hãy nhập từ khóa và số lượng! 🔍\nVD: {pn} goku - 10",
                         noData: "× Rất tiếc, không tìm thấy hình ảnh nào.",
                         success: "✅ | Đây là %2 hình ảnh cho \"%1\":",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

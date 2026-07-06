@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -28,13 +28,13 @@ module.exports = {
 
         langs: {
                 bn: {
-                        error: "× তথ্য সংগ্রহ করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× তথ্য সংগ্রহ করতে সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
-                        error: "× Failed to fetch info: %1. Contact MahMUD for help."
+                        error: "× Failed to fetch info: %1. Contact SABBIR for help."
                 },
                 vi: {
-                        error: "× Lỗi lấy thông tin: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi lấy thông tin: %1. Contact SABBIR for help."
                 }
         },
 

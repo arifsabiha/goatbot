@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -38,21 +38,21 @@ module.exports = {
                         listTitle: ">🎀 সহজলভ্য ক্যাটাগরি সমূহ:\n\n",
                         addUsage: "⚠ সঠিক নিয়ম: {pn} add <category> <bn/en> <text>",
                         success: "✅| এই নাও তোমার %1 ক্যাপশন:\n\n%2",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noInput: "× Baby, please specify a category! Example: {pn} love",
                         listTitle: ">🎀 Available categories:\n\n",
                         addUsage: "⚠ Usage: {pn} add <category> <bn/en> <text>",
                         success: "✅| Here’s your %1 caption:\n\n%2",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         noInput: "× Cưng ơi, hãy nhập danh mục! Ví dụ: {pn} love",
                         listTitle: ">🎀 Các danh mục có sẵn:\n\n",
                         addUsage: "⚠ Cách dùng: {pn} add <danh mục> <bn/en> <văn bản>",
                         success: "✅| Chú thích %1 của cưng đây:\n\n%2",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

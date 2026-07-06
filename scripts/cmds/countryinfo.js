@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const baseApiUrl = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -29,20 +29,20 @@ module.exports = {
                 bn: {
                         noInput: "× বেবি, একটি দেশের নাম তো দাও! 🚩",
                         title: ">🎀 বেবি, এই নাও তোমার %1 দেশের তথ্য\n\n",
-                        notFound: "× \"%1\" দেশের তথ্য খুঁজে পাওয়া যায়নি। প্রয়োজনে Contact MahMUD।",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।\n•WhatsApp: 01836298139"
+                        notFound: "× \"%1\" দেশের তথ্য খুঁজে পাওয়া যায়নি। প্রয়োজনে Contact SABBIR।",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         noInput: "× Baby, please provide a country name! 🚩",
                         title: ">🎀 Baby, Here's your %1 Country Information\n\n",
-                        notFound: "× Could not find info for \"%1\". Contact MahMUD for help.",
-                        error: "× API error: %1. Contact MahMUD for help.\n•WhatsApp: 01836298139"
+                        notFound: "× Could not find info for \"%1\". Contact SABBIR for help.",
+                        error: "× API error: %1. Contact SABBIR"
                 },
                 vi: {
                         noInput: "× Cưng ơi, vui lòng cung cấp tên quốc gia! 🚩",
                         title: ">🎀 Cưng ơi, đây là thông tin về %1 nè\n\n",
-                        notFound: "× Không tìm thấy thông tin cho \"%1\". Liên hệ MahMUD.",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ.\n•WhatsApp: 01836298139"
+                        notFound: "× Không tìm thấy thông tin cho \"%1\". Contact SABBIR.",
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

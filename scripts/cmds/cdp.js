@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const mahmud = async () => {
-        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const base = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return base.data.mahmud;
 };
 
@@ -33,19 +33,19 @@ module.exports = {
                         total: "🎀 মোট কাপল ডিপি সংখ্যা: %1",
                         noData: "× কোনো ডিপি খুঁজে পাওয়া যায়নি!",
                         success: "🎀 | এই নাও তোমাদের ডিপি বেবি <😘",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         total: "🎀 Total Couple DPs: %1",
                         noData: "× No Couple DP found.",
                         success: "🎀 | 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐜𝐝𝐩 𝐛𝐚𝐛𝐲",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         total: "🎀 Tổng số ảnh đôi: %1",
                         noData: "× Không tìm thấy ảnh đôi nào.",
                         success: "🎀 | Ảnh đôi của các cưng đây <😘",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 

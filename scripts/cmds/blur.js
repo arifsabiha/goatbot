@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const mahmud = async () => {
-        const response = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        const response = await axios.get("https://raw.githubusercontent.com/sabbir-bot/api/main/baseApiUrl.json");
         return response.data.mahmud;
 };
 
@@ -31,21 +31,21 @@ module.exports = {
                         noImg: "× বেবি, একটি ছবিতে রিপ্লাই দাও অথবা ছবির লিঙ্ক দাও! 🖼️",
                         wait: "বেবি, একটু অপেক্ষা করো... আমি ব্লার করছি! <😘",
                         success: "এই নাও তোমার %1% ব্লার করা ছবি বেবি! <😘",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact SABBIR।"
                 },
                 en: {
                         invalidLevel: "× Baby, please enter a blur level between 1–100! ❌",
                         noImg: "× Baby, please reply to an image or provide a URL! 🖼️",
                         wait: "Baby, please wait a moment while I blur it! <😘",
                         success: "Here's your %1% blurred image baby! <😘",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        error: "× API error: %1. Contact SABBIR for help."
                 },
                 vi: {
                         invalidLevel: "× Cưng ơi, vui lòng nhập cấp độ mờ từ 1-100! ❌",
                         noImg: "× Cưng ơi, vui lòng phản hồi ảnh hoặc cung cấp liên kết! 🖼️",
                         wait: "Chờ chút nhé cưng, anh đang làm mờ ảnh! <😘",
                         success: "Ảnh mờ %1% của cưng đây! <😘",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Contact SABBIR for help."
                 }
         },
 
